@@ -1,0 +1,241 @@
+/* Backgroud Color */
+$bg-navbar: #7a52b5;
+$bg-navbar-hover: #8b71d6;
+$bg-box-search: #333;
+$bg-btn-primary: #7a52b5;
+$bg-btn-primary-hover: #551aad;
+/* Font Color */
+$font-box-search: #7a52b5;
+$font-navbar: #fff;
+$font-navbar-hover: #fff;
+/* Body */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    padding-top: 40px;
+}
+/* Navbar */
+.navbar {
+    background-color: $bg-navbar;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:hover {
+    color: $font-navbar;
+}
+@media (min-width: 768px) {
+    .navbar {
+        min-height: 40px;
+    }
+
+    .navbar-brand {
+        height: 40px;
+        padding: 10px 15px;
+    }
+
+    .navbar-nav > li > a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .form-inline div.bootstrap-select.form-control {
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+    }
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: $font-navbar;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: $font-navbar-hover;
+    background-color: $bg-navbar-hover;
+}
+/* Btn */
+.btn-primary,
+.btn-primary.disabled {
+    background-color: $bg-btn-primary;
+    border-color: $bg-btn-primary;
+}
+
+.btn-primary.disabled:active,
+.btn-primary:active {
+    background-color: $bg-btn-primary-hover;
+    border-color: $bg-btn-primary-hover;
+}
+
+.btn-primary.disabled:active:focus,
+.btn-primary.disabled:active:hover,
+.btn-primary:active:focus,
+.btn-primary:active:hover {
+    background-color: $bg-btn-primary-hover;
+    border-color: $bg-btn-primary-hover;
+}
+
+.btn-primary.disabled:focus,
+.btn-primary:focus {
+    background-color: $bg-btn-primary-hover;
+    border-color: $bg-btn-primary-hover;
+}
+
+.btn-primary.disabled:hover,
+.btn-primary:hover {
+    background-color: $bg-btn-primary-hover;
+    border-color: $bg-btn-primary-hover;
+}
+
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+    cursor: default;
+}
+/* Box */
+.box {
+    margin: 10px 0;
+    padding: 20px;
+}
+
+.box form {
+    text-align: center;
+}
+
+.box.box-search {
+    background-color: $bg-box-search;
+}
+
+.box.box-search label {
+    color: $font-box-search;
+}
+
+.seat {
+    width: 35px;
+    height: 55px;
+    float: left;
+    margin: 5px;
+    text-align: center;
+}
+
+.seat:nth-child(5n+6) {
+    clear: both;
+}
+
+.seat > .available {
+    background: url("/assets/images/seat_available.png") no-repeat;
+    width: 35px;
+    height: 40px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.seat > .booked {
+    background: url("/assets/images/seat_booked.png") no-repeat;
+    width: 35px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.seat > .busy {
+    background: url("/assets/images/seat_busy.png") no-repeat;
+    width: 35px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.seat > .selected {
+    background: url("/assets/images/seat_selected.png") no-repeat;
+    width: 35px;
+    height: 40px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.seat > .driver {
+    background: url("/assets/images/steering_whee.png") no-repeat;
+    width: 35px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.seat input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    display: none;
+}
+
+.seat.seat-detail {
+    width: 47px;
+    height: 60px;
+    text-align: center;
+}
+
+.seat.seat-detail > div {
+    background-size: 100%;
+    width: 20px;
+    height: 25px;
+}
+
+.seat.seat-detail > span {
+    font-size: 12px;
+}
+
+p.bold {
+    font-weight: bold !important;
+}
+
+p.right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.bootstrap-select.btn-group .dropdown-menu {
+    max-height: 155px !important;
+}
+
+.bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    font-weight: 100;
+}
+
+.col-30 {
+    width: 30%;
+}
+
+.col-40 {
+    width: 40%;
+}
+
+.col-50 {
+    width: 50%;
+}
+
+.col-60 {
+    width: 60%;
+}
+
+.col-70 {
+    width: 70%;
+}
+
+.col-100 {
+    width: 100%;
+}
