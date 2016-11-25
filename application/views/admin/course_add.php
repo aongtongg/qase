@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="pull-right">
-                <a class="btn btn-default" href="<?php echo base_url(); ?>admin/course">ยกเลิก</a>
+                <a class="btn btn-default" href="<?php echo base_url(); ?>admin/courses">ยกเลิก</a>
                 <button type="submit" class="btn btn-primary">เพิ่ม</button>
             </div>
         </form>

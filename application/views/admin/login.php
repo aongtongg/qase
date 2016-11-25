@@ -17,7 +17,7 @@
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" id="passowrd" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>" placeholder="รหัสผ่าน" required="">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
         </form>
     </div>
 </div>

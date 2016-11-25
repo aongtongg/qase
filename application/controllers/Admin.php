@@ -99,7 +99,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/course_edit', $view);
             $this->output->set_common_meta('QASE', '', '');
         } else {
-            redirect('/admin/course', 'refresh');
+            redirect('/admin/courses', 'refresh');
         }
     }
 
@@ -121,7 +121,7 @@ class Admin extends CI_Controller
             }
 
             if ($data) {
-                redirect('/admin/course', 'refresh');
+                redirect('/admin/courses', 'refresh');
             }
         }
     }
@@ -139,7 +139,7 @@ class Admin extends CI_Controller
             if ($data) {
                 $view['course_year'] = $data;
             } else {
-                redirect('/admin/course', 'refresh');
+                redirect('/admin/teacher_has_courses', 'refresh');
             }
         } else {
             $data = $this->Teacher_has_courses_model->find_all_course_year();
@@ -148,5 +148,128 @@ class Admin extends CI_Controller
 
         $this->load->view('admin/teacher_has_courses', $view);
         $this->output->set_common_meta('QASE', '', '');
+    }
+
+    /* Add teacher has courses page */
+    public function teacher_has_course_add()
+    {
+        $course_year = $this->uri->segment(3);
+        $course_id = $this->uri->segment(4);
+
+        if ($course_year && $course_id) {
+            $this->load->model('Teacher_has_courses_model');
+            $data = $this->Teacher_has_courses_model->find_course_year($course_year, $course_id);
+            if (!$data) {
+                redirect('/admin/teacher_has_courses', 'refresh');
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
+                $this->load->helper('form');
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('teacher_id', 'teacher_id', 'trim|required');
+                $this->form_validation->set_rules('role_id', 'role_id', 'trim|required');
+                if ($this->form_validation->run()) {
+                    $data = $this->Teacher_has_courses_model->save_course_year($course_year, $course_id, $_POST);
+
+                    if ($data) {
+                        redirect('/admin/teacher_has_courses/'.$course_year.'/'.$course_id, 'refresh');
+                    }
+                }
+            }
+
+            // Teacher lists
+            $this->load->model('Teachers_model');
+            $teachers = $this->Teachers_model->find_all();
+            $teacherLists = array();
+            if ($teachers) {
+                foreach ($teachers as $value) {
+                    $teacherLists[$value->teacher_id] = $value->first_name.' '.$value->last_name;
+                }
+            }
+
+            // Role lists
+            $this->load->model('Roles_model');
+            $roles = $this->Roles_model->find_all();
+            $roleLists = array();
+            if ($roles) {
+                foreach ($roles as $value) {
+                    $roleLists[$value->role_id] = $value->role_name;
+                }
+            }
+
+            $view['course_year'] = $course_year;
+            $view['course_id'] = $course_id;
+            $view['teacherLists'] = $teacherLists;
+            $view['roleLists'] = $roleLists;
+
+            $this->load->view('admin/teacher_has_course_add', $view);
+            $this->output->set_common_meta('QASE', '', '');
+        } else {
+            redirect('/admin/teacher_has_courses', 'refresh');
+        }
+    }
+
+    /* Edit teacher has courses page */
+    public function teacher_has_course_edit()
+    {
+        $course_year = $this->uri->segment(3);
+        $course_id = $this->uri->segment(4);
+        $role_id = $this->uri->segment(5);
+        $teacher_id = $this->uri->segment(6);
+
+        if ($course_year && $course_id && $role_id && $teacher_id) {
+            $this->load->model('Teacher_has_courses_model');
+            $data = $this->Teacher_has_courses_model->find_course_year($course_year, $course_id);
+            if (!$data) {
+                redirect('/admin/teacher_has_courses', 'refresh');
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
+                $this->load->helper('form');
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('teacher_id', 'teacher_id', 'trim|required');
+                $this->form_validation->set_rules('role_id', 'role_id', 'trim|required');
+                if ($this->form_validation->run()) {
+                    $old_data = array('role_id' => $role_id, 'teacher_id' => $teacher_id);
+                    $data = $this->Teacher_has_courses_model->save_course_year($course_year, $course_id, $_POST, $old_data);
+
+                    if ($data) {
+                        redirect('/admin/teacher_has_courses/'.$course_year.'/'.$course_id, 'refresh');
+                    }
+                }
+            }
+
+            // Teacher lists
+            $this->load->model('Teachers_model');
+            $teachers = $this->Teachers_model->find_all();
+            $teacherLists = array();
+            if ($teachers) {
+                foreach ($teachers as $value) {
+                    $teacherLists[$value->teacher_id] = $value->first_name.' '.$value->last_name;
+                }
+            }
+
+            // Role lists
+            $this->load->model('Roles_model');
+            $roles = $this->Roles_model->find_all();
+            $roleLists = array();
+            if ($roles) {
+                foreach ($roles as $value) {
+                    $roleLists[$value->role_id] = $value->role_name;
+                }
+            }
+
+            $view['course_year'] = $course_year;
+            $view['course_id'] = $course_id;
+            $view['role_id'] = $role_id;
+            $view['teacher_id'] = $teacher_id;
+            $view['teacherLists'] = $teacherLists;
+            $view['roleLists'] = $roleLists;
+
+            $this->load->view('admin/teacher_has_course_edit', $view);
+            $this->output->set_common_meta('QASE', '', '');
+        } else {
+            redirect('/admin/teacher_has_courses', 'refresh');
+        }
     }
 }

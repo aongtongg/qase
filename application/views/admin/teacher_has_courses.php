@@ -2,7 +2,7 @@
   <div class="row">
       <div class="col-xs-12">
           <h1>หลักสูตร "<?php echo $course_year[0]->course_name; ?>" ปี <?php echo $course_year[0]->course_year + 543; ?>
-              <a class="btn btn-primary" href="<?php echo base_url(); ?>admin/teacher_has_courses_add/">เพิ่ม</a>
+              <a class="btn btn-primary" href="<?php echo base_url(); ?>admin/teacher_has_course_add/<?php echo $course_year[0]->course_year; ?>/<?php echo $course_year[0]->course_id; ?>">เพิ่ม</a>
           </h1>
       </div>
       <div class="col-md-12">
@@ -12,6 +12,7 @@
                       <th>#</th>
                       <th>บทบาท</th>
                       <th>อาจารย์</th>
+                      <th></th>
                   </tr>
               </thead>
               <tbody>
@@ -25,6 +26,7 @@
                       <td><?php echo $i; ?></td>
                       <td><?php echo $value->role_name; ?></td>
                       <td><?php echo $value->first_name.' '.$value->last_name; ?></td>
+                      <td><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/teacher_has_course_edit/<?php echo $value->course_year; ?>/<?php echo $value->course_id; ?>/<?php echo $value->role_id; ?>/<?php echo $value->teacher_id; ?>">แก้ไข</a></td>
                   </tr>
                   <?php
                       endforeach;
@@ -58,7 +60,7 @@
                 ?>
                 <tr>
                     <td><?php echo $i; ?></td>
-                    <td><?php echo $value->course_year; ?></td>
+                    <td><?php echo $value->course_year + 543; ?></td>
                     <td><?php echo $value->course_name; ?></td>
                     <td><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/teacher_has_courses/<?php echo $value->course_year; ?>/<?php echo $value->course_id; ?>">แก้ไข</a></td>
                 </tr>

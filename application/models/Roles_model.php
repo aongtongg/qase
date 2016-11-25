@@ -1,6 +1,6 @@
 <?php
 
-class Teachers_model extends CI_Model
+class Roles_model extends CI_Model
 {
     public function __construct()
     {
@@ -12,11 +12,10 @@ class Teachers_model extends CI_Model
     public function find_all()
     {
         $data = $this->db->query('SELECT
-                                    teacher.tid AS teacher_id,
-                                    teacher.tname AS first_name,
-                                    teacher.tsname AS last_name
+                                    roles.role_id,
+                                    roles.role_name
                                   FROM
-                                    seminar.teacher');
+                                    roles');
 
         if ($data->result()) {
             return $data->result();
@@ -29,13 +28,12 @@ class Teachers_model extends CI_Model
     public function find($id)
     {
         $data = $this->db->query('SELECT
-                                    teacher.tid AS teacher_id,
-                                    teacher.tname AS first_name,
-                                    teacher.tsname AS last_name
+                                    roles.role_id,
+                                    roles.role_name
                                   FROM
-                                    seminar.teacher
+                                    roles
                                   WHERE
-                                    teacher.tid = "'.$id.'"');
+                                    roles.role_id = "'.$id.'"');
 
         if ($data->result()) {
             return $data->first_row();
