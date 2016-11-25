@@ -30,8 +30,9 @@
                 </select>
             </div>
             <div class="pull-right">
-                <a class="btn btn-default" href="<?php echo base_url(); ?>admin/teacher_has_courses/<?php echo $course_year; ?>/<?php echo $course_id; ?>">ยกเลิก</a>
-                <button type="submit" class="btn btn-primary">เพิ่ม</button>
+                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'.$course_year.'/'.$course_id); ?>">ยกเลิก</a>
+                <button type="submit" name="delete" class="btn btn-danger">ลบ</button>
+                <button type="submit" name="save" class="btn btn-primary">แก้ไข</button>
             </div>
         </form>
     </div>

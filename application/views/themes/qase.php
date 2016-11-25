@@ -6,19 +6,19 @@
 		<title><?php echo $title; ?></title>
 
     <!-- Favicon and touch icons -->
-		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/themes/qase/ico/favicon.png" type="image/x-icon">
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url(); ?>assets/themes/qase/ico/apple-touch-icon-144-precomposed.png">
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url(); ?>assets/themes/qase/ico/apple-touch-icon-114-precomposed.png">
-		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url(); ?>assets/themes/qase/ico/apple-touch-icon-72-precomposed.png">
-		<link rel="apple-touch-icon-precomposed" href="<?php echo base_url(); ?>assets/themes/qase/ico/apple-touch-icon-57-precomposed.png">
+		<link rel="shortcut icon" href="<?php echo base_url('assets/themes/qase/ico/favicon.png'); ?>" type="image/x-icon">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-144-precomposed.png'); ?>">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-114-precomposed.png'); ?>">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-72-precomposed.png'); ?>">
+		<link rel="apple-touch-icon-precomposed" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-57-precomposed.png'); ?>">
 
     <!-- CSS -->
-		<link href="<?php echo base_url(); ?>assets/themes/qase/css/bootstrap-datepicker.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>assets/themes/qase/css/bootstrap.min.css" rel="stylesheet">
-		<link href="<?php echo base_url(); ?>assets/themes/qase/css/font-awesome.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>assets/themes/qase/css/custom.min.css" rel="stylesheet">
+		<link href="<?php echo base_url('assets/themes/qase/css/bootstrap-datepicker.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/themes/qase/css/bootstrap.min.css'); ?>" rel="stylesheet">
+		<link href="<?php echo base_url('assets/themes/qase/css/font-awesome.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/themes/qase/css/custom.min.css'); ?>" rel="stylesheet">
 
-		<script src="<?php echo base_url(); ?>assets/themes/qase/js/jquery-1.12.4.min.js"></script>
+		<script src="<?php echo base_url('assets/themes/qase/js/jquery-1.12.4.min.js'); ?>"></script>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -103,8 +103,8 @@
         </div>
       </footer>
     </div>
-		<script src="<?php echo base_url(); ?>assets/themes/qase/js/bootstrap-datepicker.min.js"></script>
-		<script src="<?php echo base_url(); ?>assets/themes/qase/js/bootstrap.min.js"></script>
+		<script src="<?php echo base_url('assets/themes/qase/js/bootstrap-datepicker.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/themes/qase/js/bootstrap.min.js'); ?>"></script>
 		<script>
 			$(document).ready(function(){
 				var height = $('body>nav.navbar').height();

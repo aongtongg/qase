@@ -97,7 +97,8 @@ class Teacher_has_courses_model extends CI_Model
         $data = $this->db->query('SELECT
                                     teacher_has_courses.course_year,
                                     teacher_has_courses.course_id,
-                                    courses.course_name
+                                    courses.course_name,
+                                    COUNT(teacher_has_courses.teacher_id) AS teacher_no
                                   FROM
                                     teacher_has_courses
                                   LEFT JOIN
@@ -167,6 +168,21 @@ class Teacher_has_courses_model extends CI_Model
                                         "'.$data['role_id'].'",
                                         "'.$data['teacher_id'].'")');
             if ($data) {
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+
+    /* Insert/Update data course year */
+    public function delete_course_year($course_year, $course_id, $role_id, $teacher_id)
+    {
+        $result = false;
+
+        if ($course_year && $course_id && $role_id && $teacher_id) {
+            $delete = $this->db->query('DELETE FROM teacher_has_courses WHERE course_year = "'.$course_year.'" AND course_id = "'.$course_id.'" AND role_id = "'.$role_id.'" AND teacher_id = "'.$teacher_id.'"');
+            if ($delete) {
                 $result = true;
             }
         }

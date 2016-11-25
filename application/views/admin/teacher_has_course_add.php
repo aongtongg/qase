@@ -11,6 +11,26 @@
 <div class="row">
     <div class="col-md-6">
         <form id="course_form" data-toggle="validator" role="form" method="post">
+            <?php if (!$course_year && !$course_id): ?>
+            <div class="form-group">
+                <label for="course_year">ปีการศึกษา</label>
+                <select class="form-control" id="course_year" name="course_year" required="">
+                    <option value="">กรุณาเลือกปีการศึกษา</option>
+                    <?php foreach ($courseYearLists as $key => $value): ?>
+                    <option value="<?php echo $key ?>" <?php echo isset($_POST['course_year']) && $_POST['course_year'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="course_id">หลักสูตร</label>
+                <select class="form-control" id="course_id" name="course_id" required="">
+                    <option value="">กรุณาเลือกหลักสูตร</option>
+                    <?php foreach ($courseLists as $key => $value): ?>
+                    <option value="<?php echo $key ?>" <?php echo isset($_POST['course_id']) && $_POST['course_id'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <?php endif;?>
             <div class="form-group">
                 <label for="teacher_id">อาจารย์</label>
                 <select class="form-control" id="teacher_id" name="teacher_id" required="">
@@ -30,8 +50,12 @@
                 </select>
             </div>
             <div class="pull-right">
-                <a class="btn btn-default" href="<?php echo base_url(); ?>admin/teacher_has_courses/<?php echo $course_year; ?>/<?php echo $course_id; ?>">ยกเลิก</a>
-                <button type="submit" class="btn btn-primary">เพิ่ม</button>
+                <?php if ($course_year && $course_id): ?>
+                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'.$course_year.'/'.$course_id); ?>">ยกเลิก</a>
+                <?php else: ?>
+                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'); ?>">ยกเลิก</a>
+                <?php endif; ?>
+                <button type="submit" name="save" class="btn btn-primary">เพิ่ม</button>
             </div>
         </form>
     </div>

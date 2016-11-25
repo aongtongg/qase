@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
         <h1>หลักสูตร
-            <a class="btn btn-primary" href="<?php echo base_url(); ?>admin/course_add/">เพิ่ม</a>
+            <a class="btn btn-primary" href="<?php echo base_url('admin/course_add/'); ?>">เพิ่ม</a>
         </h1>
     </div>
     <div class="col-md-12">
@@ -27,7 +27,7 @@
                     <td><?php echo $value->course_name; ?></td>
                     <td><?php echo $value->course_start_date; ?></td>
                     <td><?php echo $value->course_estimate_date; ?></td>
-                    <td><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/course_edit/<?php echo $value->course_id; ?>">แก้ไข</a></td>
+                    <td><a class="btn btn-primary" href="<?php echo base_url('admin/course_edit/'.$value->course_id); ?>">แก้ไข</a></td>
                 </tr>
                 <?php
                     endforeach;
