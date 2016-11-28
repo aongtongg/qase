@@ -137,7 +137,8 @@ class Teacher_has_courses_model extends CI_Model
                                     seminar.teacher ON teacher.tid = teacher_has_courses.teacher_id
                                   WHERE
                                     teacher_has_courses.course_year = "'.$course_year.'" AND
-                                    teacher_has_courses.course_id = "'.$course_id.'"');
+                                    teacher_has_courses.course_id = "'.$course_id.'"
+                                  ORDER BY teacher_has_courses.role_id, teacher.tname');
 
         if ($data->result()) {
             return $data->result();
