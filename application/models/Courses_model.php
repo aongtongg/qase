@@ -15,9 +15,12 @@ class Courses_model extends CI_Model
                                 courses.course_id,
                                 courses.course_name,
                                 courses.course_start_date,
-                                courses.course_estimate_date
+                                courses.course_estimate_date,
+                                COUNT(teacher_has_courses.course_id) AS teacher_has_courses
                               FROM
-                                courses');
+                                courses
+                              LEFT JOIN teacher_has_courses ON teacher_has_courses.course_id = courses.course_id
+                              GROUP BY courses.course_id');
 
         if ($data->result()) {
             return $data->result();
@@ -33,11 +36,14 @@ class Courses_model extends CI_Model
                                     courses.course_id,
                                     courses.course_name,
                                     courses.course_start_date,
-                                    courses.course_estimate_date
+                                    courses.course_estimate_date,
+                                    COUNT(teacher_has_courses.course_id) AS teacher_has_courses
                                   FROM
                                     courses
+                                  LEFT JOIN teacher_has_courses ON teacher_has_courses.course_id = courses.course_id
                                   WHERE
-                                    courses.course_id = "'.$id.'"');
+                                    courses.course_id = "'.$id.'"
+                                  GROUP BY courses.course_id');
 
         if ($data->result()) {
             return $data->first_row();
@@ -45,7 +51,6 @@ class Courses_model extends CI_Model
             return false;
         }
     }
-
 
     /* Insert/Update data */
     public function save($data, $id = null)
@@ -75,6 +80,25 @@ class Courses_model extends CI_Model
                                   )');
             if ($data) {
                 $result = $this->db->insert_id();
+            }
+        }
+
+        return $result;
+    }
+
+    /* Delete data */
+    public function delete($id = null)
+    {
+        $result = false;
+
+        if ($id) {
+            $data = $this->find($id);
+            if ($data && !$data->teacher_has_courses) {
+                $delete = $this->db->query('DELETE FROM courses WHERE course_id = "'.$id.'"');
+
+                if ($data) {
+                    $result = true;
+                }
             }
         }
 

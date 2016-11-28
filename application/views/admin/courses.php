@@ -27,7 +27,12 @@
                     <td><?php echo $value->course_name; ?></td>
                     <td><?php echo $value->course_start_date; ?></td>
                     <td><?php echo $value->course_estimate_date; ?></td>
-                    <td><a class="btn btn-primary" href="<?php echo base_url('admin/course_edit/'.$value->course_id); ?>">แก้ไข</a></td>
+                    <td>
+                      <a class="btn btn-primary" href="<?php echo base_url('admin/course_edit/'.$value->course_id); ?>">แก้ไข</a>
+                      <?php if (!$value->teacher_has_courses): ?>
+                      <a class="btn btn-danger" href="<?php echo base_url('admin/course_delete/'.$value->course_id); ?>">ลบ</a>
+                      <?php endif; ?>
+                    </td>
                 </tr>
                 <?php
                     endforeach;
@@ -37,3 +42,10 @@
         </table>
     </div>
 </div>
+<script>
+    $('.btn-danger').on('click', function(e) {
+        if(!confirm('คุณต้องการที่จะลบหลักสูตรนี้?')){
+             event.preventDefault();
+         }
+    });
+</script>

@@ -18,7 +18,8 @@ class Admin extends CI_Controller
     {
         $method = $this->uri->segment(2);
         if ($method != '' && $method != 'logout') {
-            if (!isset($this->session->userdata['QASE_User'])) {
+            //if (!isset($this->session->userdata['QASE_User'])) {
+            if (!isset($_SESSION['QASE_User'])) {
                 redirect('/admin', 'refresh');
             }
         }
@@ -34,7 +35,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         $view['message'] = '';
         if ($this->form_validation->run() == false) {
-            if (isset($this->session->userdata['QASE_User'])) {
+            //if (isset($this->session->userdata['QASE_User'])) {
+            if (isset($_SESSION['QASE_User'])) {
                 $this->load->view('admin/index', $view);
             } else {
                 $this->load->view('admin/login', $view);
@@ -63,6 +65,7 @@ class Admin extends CI_Controller
     public function courses()
     {
         $this->load->model('Courses_model');
+
         $data = $this->Courses_model->find_all();
         $view['data'] = $data;
         $this->load->view('admin/courses', $view);
@@ -124,6 +127,14 @@ class Admin extends CI_Controller
                 redirect('/admin/courses', 'refresh');
             }
         }
+    }
+
+    /* Delete courses */
+    public function course_delete()
+    {
+        $this->load->model('Courses_model');
+        $data = $this->Courses_model->delete($this->uri->segment(3));
+        redirect('/admin/courses', 'refresh');
     }
 
     /* Teacher has courses page */
