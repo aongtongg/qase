@@ -37,3 +37,10 @@
         </form>
     </div>
 </div>
+<script>
+    $('.btn-danger').on('click', function(e) {
+        if(!confirm('คุณต้องการที่จะลบบทบาทนี้?')){
+             event.preventDefault();
+         }
+    });
+</script>

@@ -92,6 +92,7 @@
 			</div>
 		</nav>
     <div class="container">
+			<?php echo isset($breadcrumbs) ? $breadcrumbs : ''; ?>
     	<?php if ($this->load->get_section('text_header') != '') { ?>
     	<h1><?php echo $this->load->get_section('text_header'); ?></h1>
     	<?php } ?>
