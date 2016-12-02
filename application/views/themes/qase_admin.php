@@ -83,8 +83,7 @@
 				<?php if(isset($_SESSION['QASE_User'])): ?>
 				<ul class="nav navbar-nav">
 					<li class=""><a href="<?php echo base_url('admin/teacher_has_courses'); ?>" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</a></li>
-				</ul>
-				<ul class="nav navbar-nav">
+					<li class=""><a href="<?php echo base_url('admin/roles'); ?>" title="และบทบาท">บทบาท</a></li>
 					<li class=""><a href="<?php echo base_url('admin/logout'); ?>" title="ออกจากระบบ">ออกจากระบบ</a></li>
 				</ul>
 				<?php endif; ?>

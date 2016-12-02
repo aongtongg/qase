@@ -347,4 +347,60 @@ class Admin extends CI_Controller
             redirect('/admin/teacher_has_courses', 'refresh');
         }
     }
+
+    /* Roles page */
+    public function roles()
+    {
+        $this->load->model('Roles_model');
+
+        $data = $this->Roles_model->find_all();
+        $view['data'] = $data;
+
+        $this->breadcrumbs->push('บทบาท', '/admin/roles');
+        $view['breadcrumbs'] = $this->breadcrumbs->show();
+        $this->load->view('admin/roles', $view);
+        $this->output->set_common_meta('QASE', '', '');
+    }
+
+    /* Edit roles page */
+    public function role_edit()
+    {
+        $role_id = $this->uri->segment(3);
+        $this->load->model('Roles_model');
+        $this->load->model('Role_has_rules_model');
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
+            if (isset($_POST['rules']) && is_array($_POST['rules'])) {
+                $delete = $this->Role_has_rules_model->delete($role_id);
+                foreach ($_POST['rules'] as $value) {
+                    $data = $this->Role_has_rules_model->save($value, $role_id);
+                }
+                redirect('/admin/roles', 'refresh');
+            }
+        }
+
+        $data = $this->Roles_model->find($role_id);
+        if ($data) {
+            $this->load->model('Rules_model');
+            $rules = $this->Rules_model->find_all();
+            $ruleSelect = $this->Role_has_rules_model->find($role_id);
+            $ruleSelected = array();
+            if ($ruleSelect) {
+                foreach ($ruleSelect as $value) {
+                    $ruleSelected[$value->rule_id] = true;
+                }
+            }
+            $view['data'] = $data;
+            $view['rules'] = $rules;
+            $view['ruleSelected'] = $ruleSelected;
+
+            $this->breadcrumbs->push('บทบาท', '/admin/roles');
+            $this->breadcrumbs->push('แก้ไขกฎ', '/admin/role_edit/');
+            $view['breadcrumbs'] = $this->breadcrumbs->show();
+            $this->load->view('admin/role_edit', $view);
+            $this->output->set_common_meta('QASE', '', '');
+        } else {
+            redirect('/admin/roles', 'refresh');
+        }
+    }
 }
