@@ -3,7 +3,7 @@
         <h1>บทบาท</h1>
     </div>
     <div class="col-md-12">
-        <table id="routeTable" class="table table-striped">
+        <table id="routeTable" class="table">
             <thead>
                 <tr>
                     <th>#</th>

@@ -28,7 +28,7 @@ class Admin extends CI_Controller
         }
         $this->output->set_template('qase');
         $this->load->library('breadcrumbs');
-        $this->breadcrumbs->push('ระบบหลังบ้าน', '/admin/');
+        $this->breadcrumbs->push('Quality Assurance', '/admin/');
 
         $this->load->js('assets/themes/qase/js/validator.min.js');
     }
@@ -182,7 +182,7 @@ class Admin extends CI_Controller
             $view['data'] = $data;
         }
 
-        $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+        $this->breadcrumbs->push('ภาพรวมหลักสูตร และบทบาท', '/admin/teacher_has_courses');
         if ($course_year && $course_id) {
             $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_year.'/'.$course_id);
         }
@@ -348,7 +348,7 @@ class Admin extends CI_Controller
             $view['teacherLists'] = $teacherLists;
             $view['roleLists'] = $roleLists;
 
-            $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+            $this->breadcrumbs->push('ภาพรวมหลักสูตร และบทบาท', '/admin/teacher_has_courses');
             if ($course_year && $course_id) {
                 $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_year.'/'.$course_id);
             }

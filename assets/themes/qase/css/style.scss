@@ -1,14 +1,67 @@
 html {
     min-width: 1280px;
+    background: #e4e4e4;
 }
+
+#wrap {}
 
 #wrapper {
     h1 {
         font-size: 36px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     #loginForm {
         margin-top: 20px;
         margin-bottom: 20px;
+    }
+
+    .breadcrumb {
+        margin-bottom: 0;
+
+        a:active {
+            font-weight: normal;
+        }
+    }
+
+    .table {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        thead {
+            tr {
+                background-color: #d4a0ff;
+
+                th {
+                    border: 0;
+                    line-height: 14px;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                td {
+                    border: 0;
+                    line-height: 32px;
+                    font-size: 14px;
+                }
+            }
+
+            tr:nth-child(odd) {
+                background-color: #e7cbff;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f5e9ff;
+            }
+        }
+    }
+
+    .alert {
+        margin-top: 10px;
+        margin-bottom: 0;
     }
 }

@@ -7,7 +7,7 @@
 		<title><?php echo $title; ?></title>
 
     <!-- Favicon and touch icons -->
-		<link rel="shortcut icon" href="<?php echo base_url('images/favicon_cscmu.ico'); ?>" type="image/x-icon">
+		<link rel="shortcut icon" href="<?php echo root_url('images/favicon_cscmu.ico'); ?>" type="image/x-icon">
 
     <!-- CSS -->
 		<link href="<?php echo base_url('assets/themes/qase/css/bootstrap-datepicker.min.css'); ?>" rel="stylesheet">
@@ -80,6 +80,14 @@
 			.nodata{width:924px;height:500px;line-height:500px;}
 			.spc{float:left;width:100%;height:40px;}
 			.inputt{float:left;width:344px;height:34px;line-height:34px;font-size:22px;padding:5px 5px 5px 10px;border:1px solid #d9d9d9;color:#313131;z-index:999}
+
+			#wrapper>.bar{width:100%;height:45px;background:url(<?php echo root_url('images/research-b.jpg'); ?>);}
+			#wrapper>.bar>.bar-form{float:right;width:600px;height:45px;line-height:45px;}
+			#wrapper>.bar>.bar-form>.logout{float:right;width:130px;height:45px;line-height:45px;}
+			#wrapper>.bar>.bar-form>.logout>input{width:120px;height:36px;line-height:28px;background:no-repeat rgb(50,50,50);border:1px solid rgb(212,160,255);border-radius:3px;font-size:18px;color:rgb(212,160,255);text-align:center;margin-top:4px;margin-left:5px}
+			#wrapper>.bar>.bar-form>.logout>input:hover{background:#d4a0ff;background-repeat:repeat-x;color:#323232;border-radius:3px;}
+			#wrapper>.bar>.bar-form>.role{float:right;width:100px;height:45px;line-height:45px;color:#d4a0ff;text-align:center;}
+			#wrapper>.bar>.bar-form>.email{float:right;width:300px;height:45px;line-height:45px;color:#d4a0ff;text-align:center;}
 		</style>
 		<script>
 				var BASE_URL = '<?php echo base_url(); ?>';
@@ -105,13 +113,12 @@
 				<center>
 					<div class="niv-in">
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo root_url(); ?>'">Home</div>
-						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin'); ?>'">Quality Assurance</div>
-						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('teacher'); ?>'" title="อาจารย์">อาจารย์</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin'); ?>'" title="Quality Assurance">Quality Assurance</div>
 						<?php if (isset($_SESSION['members_class']) && $_SESSION['members_class'] >= 2): ?>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('teacher'); ?>'" title="อาจารย์">อาจารย์</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/courses'); ?>'" title="หลักสูตร">หลักสูตร</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/teacher_has_courses'); ?>'" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/roles'); ?>'" title="บทบาท">บทบาท</div>
-						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/logout'); ?>'" title="ออกจากระบบ">ออกจากระบบ</div>
 						<?php endif; ?>
 						<div class="nav-head-end"></div>
 					</div>
@@ -119,14 +126,51 @@
 			</div>
 		</center>
 		<div id="wrap">
-			<div id="wrapper">
+			<section id="main">
+				<div id="wrapper">
+					<div class="bar">
+						<div class="bar-form">
+							<?php if (isset($_SESSION['members_class']) && $_SESSION['members_class'] >= 0): ?>
+							<div class="logout">
+								<input type="button" onclick="window.location.href='<?php echo base_url('admin/logout'); ?>'" value="Signout" class="cpt">
+							</div>
+							<?php endif; ?>
+							<?php
+              function className($class)
+              {
+                  switch ($class) {
+                      case '0':
+                          $class = 'Normal';
+                          break;
+                      case '1':
+                          $class = 'Viewer';
+                          break;
+                      case '2':
+                          $class = 'Admin';
+                          break;
+                      case '3':
+                          $class = 'Super Admin';
+                          break;
+                      default:
+                          $class = 'Unknown';
+                          break;
+                  }
+
+                  return $class;
+              }
+              ?>
+							<div class="role"><?php echo isset($_SESSION['members_class']) ? className($_SESSION['members_class']) : ''; ?></div>
+							<div class="email"><?php echo isset($_SESSION['members_email']) ? $_SESSION['members_email'] : ''; ?></div>
+						</div>
+					</div>
 					<?php echo isset($breadcrumbs) ? $breadcrumbs : ''; ?>
 		    	<?php if ($this->load->get_section('text_header') != ''): ?>
 		    	<h1><?php echo $this->load->get_section('text_header'); ?></h1>
 					<?php endif; ?>
 				  <?php echo $output;?>
 					<?php echo $this->load->get_section('sidebar'); ?>
-			</div>
+				</div>
+			</section>
 		</div>
 		<footer id="footer">
 			<div id="footersitemap">

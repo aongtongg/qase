@@ -1,10 +1,37 @@
 html {
-  min-width: 1280px; }
+  min-width: 1280px;
+  background: #e4e4e4; }
 
 #wrapper h1 {
-  font-size: 36px; }
+  font-size: 36px;
+  margin-top: 5px;
+  margin-bottom: 5px; }
 #wrapper #loginForm {
   margin-top: 20px;
   margin-bottom: 20px; }
+#wrapper .breadcrumb {
+  margin-bottom: 0; }
+  #wrapper .breadcrumb a:active {
+    font-weight: normal; }
+#wrapper .table {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+  #wrapper .table thead tr {
+    background-color: #d4a0ff; }
+    #wrapper .table thead tr th {
+      border: 0;
+      line-height: 14px;
+      font-size: 14px; }
+  #wrapper .table tbody tr td {
+    border: 0;
+    line-height: 32px;
+    font-size: 14px; }
+  #wrapper .table tbody tr:nth-child(odd) {
+    background-color: #e7cbff; }
+  #wrapper .table tbody tr:nth-child(even) {
+    background-color: #f5e9ff; }
+#wrapper .alert {
+  margin-top: 10px;
+  margin-bottom: 0; }
 
 /*# sourceMappingURL=style.css.map */

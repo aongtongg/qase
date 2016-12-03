@@ -1,4 +1,7 @@
 <div class="row">
+    <div class="col-md-12">
+        <h1>เข้าสู่ระบบ</h1>
+    </div>
     <?php if ($message): ?>
     <div class="col-md-12">
         <div id="message" class="alert alert-danger" onclick="HideMessage();">
@@ -7,9 +10,6 @@
     </div>
     <?php endif; ?>
     <div id="alert_message" class="col-md-12"></div>
-    <div class="col-md-12">
-        <h1>เข้าสู่ระบบ</h1>
-    </div>
     <div class="col-md-12">
         <form id="loginForm" data-toggle="validator" role="form" method="post">
             <div class="form-group">
