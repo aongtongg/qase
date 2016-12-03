@@ -55,9 +55,12 @@ body {
 }
 /* Btn */
 .btn-primary,
-.btn-primary.disabled {
+.btn-primary.disabled,
+.btn-primary:link,
+.btn-primary:visited {
     background-color: $bg-btn-primary;
     border-color: $bg-btn-primary;
+    color: #fff;
 }
 
 .btn-primary.disabled:active,
@@ -84,6 +87,11 @@ body {
 .btn-primary:hover {
     background-color: $bg-btn-primary-hover;
     border-color: $bg-btn-primary-hover;
+}
+
+.btn-danger.disabled,
+.btn-danger:link {
+    color: #fff;
 }
 
 .btn.disabled,

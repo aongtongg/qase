@@ -16,14 +16,17 @@ class Admin extends CI_Controller
 
     private function _init()
     {
+        if (!isset($_SESSION['members_class'])) {
+            //redirect(root_url(), 'refresh');
+        }
         $method = $this->uri->segment(2);
         if ($method != '' && $method != 'logout') {
-            //if (!isset($this->session->userdata['QASE_User'])) {
-            if (!isset($_SESSION['QASE_User'])) {
-                redirect('/admin', 'refresh');
+            //if (!isset($this->session->userdata['members_class'])) {
+            if (!isset($_SESSION['members_class'])) {
+                redirect(root_url(), 'refresh');
             }
         }
-        $this->output->set_template('qase_admin');
+        $this->output->set_template('qase');
         $this->load->library('breadcrumbs');
         $this->breadcrumbs->push('ระบบหลังบ้าน', '/admin/');
 
@@ -38,17 +41,23 @@ class Admin extends CI_Controller
 
         $view['message'] = '';
         if ($this->form_validation->run() == false) {
-            //if (isset($this->session->userdata['QASE_User'])) {
-            if (isset($_SESSION['QASE_User'])) {
+            //if (isset($this->session->userdata['members_class'])) {
+            if (isset($_SESSION['members_class'])) {
                 $this->load->view('admin/index', $view);
             } else {
                 $this->load->view('admin/login', $view);
             }
         } else {
-            $this->load->model('Users_model');
-            $data = $this->Users_model->getUser($this->input->post('username'), $this->input->post('password'));
+            $this->load->model('Members_model');
+            $data = $this->Members_model->login($this->input->post('username'), $this->input->post('password'));
             if ($data) {
-                $this->session->set_userdata('QASE_User', $data);
+                $this->session->set_userdata('members_id', $data->members_id);
+                $this->session->set_userdata('members_class', $data->members_class);
+                $this->session->set_userdata('members_email', $data->members_email);
+                $this->session->set_userdata('members_status', $data->members_status);
+                $this->session->set_userdata('members_first_name', $data->members_first_name);
+                $this->session->set_userdata('members_last_name', $data->members_last_name);
+
                 $this->load->view('admin/index', $view);
             } else {
                 $view['message'] = 'กรุณากรอกชื่อผู้ใช้หรือรหัสผ่านให้ถูกต้อง';
@@ -60,7 +69,11 @@ class Admin extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('QASE_User');
+        //$this->session->unset_userdata('members_class');
+        $user_data = $this->session->all_userdata();
+        foreach ($user_data as $key => $value) {
+            $this->session->unset_userdata($key);
+        }
         redirect('/admin', 'refresh');
     }
 

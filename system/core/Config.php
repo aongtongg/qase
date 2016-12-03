@@ -325,6 +325,39 @@ class CI_Config {
 	// -------------------------------------------------------------
 
 	/**
+	 * Root URL
+	 *
+	 * Returns root_url [. uri_string]
+	 *
+	 * @uses	CI_Config::_uri_string()
+	 *
+	 * @param	string|string[]	$uri	URI string or an array of segments
+	 * @param	string	$protocol
+	 * @return	string
+	 */
+	public function root_url($uri = '', $protocol = NULL)
+	{
+		$root_url = $this->slash_item('root_url');
+
+		if (isset($protocol))
+		{
+			// For protocol-relative links
+			if ($protocol === '')
+			{
+				$root_url = substr($root_url, strpos($root_url, '//'));
+			}
+			else
+			{
+				$root_url = $protocol.substr($root_url, strpos($root_url, '://'));
+			}
+		}
+
+		return $root_url.ltrim($this->_uri_string($uri), '/');
+	}
+
+	// -------------------------------------------------------------
+
+	/**
 	 * Build URI string
 	 *
 	 * @used-by	CI_Config::site_url()

@@ -23,8 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = '';
-$config['base_url'] = 'http://qase.dev:8888/';
+$config['base_url'] = 'http://se.dev:8888/qase/';
+//$config['base_url'] = 'http://52.220.162.21/qase/';
+$config['root_url'] = 'http://se.dev:8888/';
+//$config['root_url'] = 'http://52.220.162.21/';
 
 
 /*

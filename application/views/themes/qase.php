@@ -3,20 +3,22 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=1280">
 		<title><?php echo $title; ?></title>
 
     <!-- Favicon and touch icons -->
-		<link rel="shortcut icon" href="<?php echo base_url('assets/themes/qase/ico/favicon.png'); ?>" type="image/x-icon">
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-144-precomposed.png'); ?>">
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-114-precomposed.png'); ?>">
-		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-72-precomposed.png'); ?>">
-		<link rel="apple-touch-icon-precomposed" href="<?php echo base_url('assets/themes/qase/ico/apple-touch-icon-57-precomposed.png'); ?>">
+		<link rel="shortcut icon" href="<?php echo base_url('images/favicon_cscmu.ico'); ?>" type="image/x-icon">
 
     <!-- CSS -->
 		<link href="<?php echo base_url('assets/themes/qase/css/bootstrap-datepicker.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/themes/qase/css/bootstrap.min.css'); ?>" rel="stylesheet">
 		<link href="<?php echo base_url('assets/themes/qase/css/font-awesome.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo base_url('assets/themes/qase/css/custom.min.css'); ?>" rel="stylesheet">
+
+		<link href="<?php echo root_url('css/reset.css'); ?>" rel="stylesheet">
+		<link href="<?php echo root_url('css/style.css'); ?>" rel="stylesheet">
+		<link href="<?php echo root_url('css/component.css'); ?>" rel="stylesheet">
+		<link href="<?php echo base_url('assets/themes/qase/css/style.min.css'); ?>" rel="stylesheet">
 
 		<script src="<?php echo base_url('assets/themes/qase/js/jquery-1.12.4.min.js'); ?>"></script>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -59,50 +61,102 @@
     } echo "\n\t";
 
     /* -- to here -- */
-		?>
+        ?>
 
+		<style>
+			/*body{font-family:"Sukhumvit Set";}*/
+			.nav-form{width:100%;height:36px;background:url('<?php echo root_url('images/nav_menu_bg.png'); ?>');background-repeat:repeat-x;}
+			.nav-head{float:left;width:145px;height:38px;line-height:38px;color:#313131;font-weight:bold;font-size:16px;background:url('<?php echo root_url('images/nav-l.png'); ?>');background-repeat:no-repeat;font-family:"Sukhumvit Set";}
+			.nav-head:hover{color:#fdb5fe;font-weight:bold;background:url('<?php echo root_url('images/nav-t.png'); ?>');background-repeat:repeat-x;border-radius:3px;}
+			.nav-head-end{float:left;width:2px;height:38px;background:url('<?php echo root_url('images/nav-l.png'); ?>');background-repeat:no-repeat;}
+			.cpt{cursor:pointer;}
+			.warper-h{margin-bottom:100px;}
+			.niv-in{width:1024px;height:36px;}
+			.niv-in-add{width:1024px;height:300px;}
+			.import{width:100px;height:36px;background:none;font-size:16px;font-weight:bold;color:#bf8beb;font-family:"Sukhumvit Set";border:2px solid #bf8beb;}
+			.import:hover{background:#ece6f2;}
+			.va{vertical-align:middle;}
+			.ta{text-align:center;}
+			.nodata{width:924px;height:500px;line-height:500px;}
+			.spc{float:left;width:100%;height:40px;}
+			.inputt{float:left;width:344px;height:34px;line-height:34px;font-size:22px;padding:5px 5px 5px 10px;border:1px solid #d9d9d9;color:#313131;z-index:999}
+		</style>
+		<script>
+				var BASE_URL = '<?php echo base_url(); ?>';
+		</script>
 	</head>
   <body>
-		<nav class="navbar navbar-default navbar-fixed-top store-header">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Quality Assurance</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				<a class="navbar-brand" href="<?php echo base_url(); ?>"><font class="banner">Quality Assurance</font></a>
+		<header id="header">
+	    <div id="headerbody">
+        <div id="headerleft">
+          <div id="headerlogo">
+            <a href="<?php echo base_url(); ?>">
+              <img src="<?php echo root_url('images/logo_img.png'); ?>" alt="">
+            </a>
+          </div>
+          <div id="headertext">
+						<img src="<?php echo root_url('images/logo_text.png'); ?>" alt="">
+          </div>
+        </div>
+	    </div>
+		</header>
+		<center>
+			<div class="nav-form">
+				<center>
+					<div class="niv-in">
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo root_url(); ?>'">Home</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin'); ?>'">Quality Assurance</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('teacher'); ?>'" title="อาจารย์">อาจารย์</div>
+						<?php if (isset($_SESSION['members_class']) && $_SESSION['members_class'] >= 2): ?>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/courses'); ?>'" title="หลักสูตร">หลักสูตร</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/teacher_has_courses'); ?>'" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/roles'); ?>'" title="บทบาท">บทบาท</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/logout'); ?>'" title="ออกจากระบบ">ออกจากระบบ</div>
+						<?php endif; ?>
+						<div class="nav-head-end"></div>
+					</div>
+				</center>
 			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class=""><a href="<?php echo base_url('teacher'); ?>" title="อาจารย์">อาจารย์</a></li>
-					<li class=""><a href="<?php echo base_url('admin'); ?>" title="ระบบหลังบ้าน">ระบบหลังบ้าน</a></li>
-					<!--<li class="dropdown ">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" title="test">test <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li class=""><a href="/stores/glasses" title="test sub">test sub</a></li>
+		</center>
+		<div id="wrap">
+			<div id="wrapper">
+					<?php echo isset($breadcrumbs) ? $breadcrumbs : ''; ?>
+		    	<?php if ($this->load->get_section('text_header') != ''): ?>
+		    	<h1><?php echo $this->load->get_section('text_header'); ?></h1>
+					<?php endif; ?>
+				  <?php echo $output;?>
+					<?php echo $this->load->get_section('sidebar'); ?>
+			</div>
+		</div>
+		<footer id="footer">
+			<div id="footersitemap">
+				<ul>
+					<li>
+						<ul>
+							<li><a href="<?php echo root_url(); ?>">หน้าหลัก</a></li>
+							<li><a href="<?php echo root_url(); ?>">เพิ่มงานวิจัย</a></li>
+							<li><a href="<?php echo root_url(); ?>">แก้ไขงานวิจัย</a></li>
+							<li><a href="<?php echo root_url(); ?>">API</a></li>
+							<li><a href="<?php echo root_url(); ?>">Flush</a></li>
+							<li><a href="<?php echo root_url(); ?>">Truncate</a></li>
+							<li><a href="<?php echo root_url(); ?>">ติดต่อเรา</a></li>
 						</ul>
-					</li>-->
+					</li>
 				</ul>
 			</div>
+			<div id="footerline"></div>
+			<div id="footerbottom">
+				<div id="footerbottomleft">
+					<img src="<?php echo root_url('images/footer_logo.png'); ?>" alt="">
+				</div>
+				<div id="footerbottomline"></div>
+				<div id="footerbottomcenter">
+					<div>www.cs.science.cmu.ac.th</div>
+					<div>Copyright 2011 Chiang Mai University, All right reserved</div>
+					<div>จำนวนผู้เยี่ยมชม</div>
+				</div>
 			</div>
-		</nav>
-    <div class="container">
-    	<?php if ($this->load->get_section('text_header') != '') { ?>
-    	<h1><?php echo $this->load->get_section('text_header'); ?></h1>
-    	<?php } ?>
-		  <?php echo $output;?>
-			<?php echo $this->load->get_section('sidebar'); ?>
-      <hr/>
-      <footer>
-      	<div class="row">
-	        <div class="col-xs-6">
-						Copyright &copy; <a href="<?php echo base_url(); ?>">QASE</a>
-	        </div>
-        </div>
-      </footer>
-    </div>
+		</footer>
 		<script src="<?php echo base_url('assets/themes/qase/js/bootstrap-datepicker.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/themes/qase/js/bootstrap.min.js'); ?>"></script>
 		<script>
