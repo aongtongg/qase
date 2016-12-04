@@ -25,8 +25,8 @@
                 <tr>
                     <td><?php echo $i; ?></td>
                     <td><?php echo $value->course_name; ?></td>
-                    <td><?php echo $value->course_start_date; ?></td>
-                    <td><?php echo $value->course_estimate_date; ?></td>
+                    <td><?php echo $controller->_DateThai($value->course_start_date); ?></td>
+                    <td><?php echo $controller->_DateThai($value->course_estimate_date); ?></td>
                     <td>
                       <a class="btn btn-primary" href="<?php echo base_url('admin/course_edit/'.$value->course_id); ?>">แก้ไข</a>
                       <?php if (!$value->teacher_has_courses): ?>

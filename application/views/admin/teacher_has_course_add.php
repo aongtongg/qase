@@ -16,18 +16,22 @@
                 <label for="course_year">ปีการศึกษา</label>
                 <select class="form-control" id="course_year" name="course_year" required="">
                     <option value="">กรุณาเลือกปีการศึกษา</option>
+                    <?php if (isset($courseYearLists) && is_array($courseYearLists)): ?>
                     <?php foreach ($courseYearLists as $key => $value): ?>
                     <option value="<?php echo $key ?>" <?php echo isset($_POST['course_year']) && $_POST['course_year'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="course_id">หลักสูตร</label>
                 <select class="form-control" id="course_id" name="course_id" required="">
                     <option value="">กรุณาเลือกหลักสูตร</option>
+                    <?php if (isset($courseLists) && is_array($courseLists)): ?>
                     <?php foreach ($courseLists as $key => $value): ?>
                     <option value="<?php echo $key ?>" <?php echo isset($_POST['course_id']) && $_POST['course_id'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <?php endif;?>
@@ -35,18 +39,22 @@
                 <label for="role_id">บทบาท</label>
                 <select class="form-control" id="role_id" name="role_id" required="">
                     <option value="">กรุณาเลือกบทบาท</option>
+                    <?php if (isset($roleLists) && is_array($roleLists)): ?>
                     <?php foreach ($roleLists as $key => $value): ?>
-                      <option value="<?php echo $key ?>" <?php echo isset($_POST['role_id']) && $_POST['role_id'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
+                    <option value="<?php echo $key ?>" <?php echo isset($_POST['role_id']) && $_POST['role_id'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="teacher_id">อาจารย์</label>
                 <select class="form-control" id="teacher_id" name="teacher_id" required="">
                     <option value="">กรุณาเลือกอาจารย์</option>
+                    <?php if (isset($teacherLists) && is_array($teacherLists)): ?>
                     <?php foreach ($teacherLists as $key => $value): ?>
                     <option value="<?php echo $key ?>" <?php echo isset($_POST['teacher_id']) && $_POST['teacher_id'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="pull-right">

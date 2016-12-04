@@ -147,6 +147,48 @@ class Teacher_has_courses_model extends CI_Model
         }
     }
 
+    /* Select data course year by course_year */
+    public function getCourseYear($course_year)
+    {
+        $data = $this->db->query('SELECT
+                                    teacher_has_courses.course_id,
+                                    courses.course_name,
+                                    courses.course_start_date,
+                                    courses.course_estimate_date,
+                                    teacher_has_courses.course_year
+                                  FROM
+                                    teacher_has_courses
+                                  LEFT JOIN
+                                    courses ON courses.course_id = teacher_has_courses.course_id
+                                  WHERE
+                                    teacher_has_courses.course_year = "'.$course_year.'"
+                                  GROUP BY courses.course_id
+                                  ORDER BY courses.course_name');
+
+        if ($data->result()) {
+            return $data->result();
+        } else {
+            return false;
+        }
+    }
+
+    /* Select data course year */
+    public function getYear()
+    {
+        $data = $this->db->query('SELECT
+                                    teacher_has_courses.course_year
+                                  FROM
+                                    teacher_has_courses
+                                  GROUP BY teacher_has_courses.course_year
+                                  ORDER BY teacher_has_courses.course_year DESC');
+
+        if ($data->result()) {
+            return $data->result();
+        } else {
+            return false;
+        }
+    }
+
     /* Insert/Update data course year */
     public function save_course_year($course_year, $course_id, $data, $old_data = null)
     {

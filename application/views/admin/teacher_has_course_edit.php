@@ -15,18 +15,22 @@
                 <label for="role_id">บทบาท</label>
                 <select class="form-control" id="role_id" name="role_id" required="">
                     <option value="">กรุณาเลือกบทบาท</option>
+                    <?php if (isset($roleLists) && is_array($roleLists)): ?>
                     <?php foreach ($roleLists as $key => $value): ?>
-                      <option value="<?php echo $key ?>" <?php echo $role_id == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
+                    <option value="<?php echo $key ?>" <?php echo $role_id == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="teacher_id">อาจารย์</label>
                 <select class="form-control" id="teacher_id" name="teacher_id" required="">
                     <option value="">กรุณาเลือกอาจารย์</option>
+                    <?php if (isset($teacherLists) && is_array($teacherLists)): ?>
                     <?php foreach ($teacherLists as $key => $value): ?>
                     <option value="<?php echo $key ?>" <?php echo $teacher_id == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
+                    <?php endif; ?>
                 </select>
             </div>
             <div class="pull-right">

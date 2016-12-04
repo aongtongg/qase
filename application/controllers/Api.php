@@ -16,13 +16,22 @@ class Api extends CI_Controller
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
-    public function getCourses()
+    public function getCourseYear()
     {
-        $this->load->model('Courses_model');
-        $data = $this->Courses_model->find_all();
+        $this->load->model('Teacher_has_courses_model');
+        $data = array('result' => 0, 'data' => null);
+        if ($this->input->post('course_year')) {
+            $data = $this->Teacher_has_courses_model->getCourseYear($this->input->post('course_year'));
+            if ($data) {
+                $data = array('result' => 1, 'data' => $data);
+            } else {
+                $data = array('result' => 1, 'data' => null);
+            }
+        }
 
         return $this->json($data);
     }
+
     public function login()
     {
         $data = array('result' => 0, 'data' => null);

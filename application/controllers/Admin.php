@@ -84,6 +84,7 @@ class Admin extends CI_Controller
 
         $data = $this->Courses_model->find_all();
         $view['data'] = $data;
+        $view['controller'] = $this;
 
         $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
@@ -96,7 +97,8 @@ class Admin extends CI_Controller
     {
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
-            if ($_POST['course_name'] != '' && $_POST['course_start_date'] != '' && $_POST['course_estimate_date'] != '') {
+            if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
+                //if ($_POST['course_name'] != '' && $_POST['course_start_date'] != '' && $_POST['course_estimate_date'] != '') {
                 $this->course_save();
             }
         }
@@ -113,7 +115,8 @@ class Admin extends CI_Controller
     {
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
-            if ($_POST['course_name'] != '' && $_POST['course_start_date'] != '' && $_POST['course_estimate_date'] != '') {
+            if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
+                //if ($_POST['course_name'] != '' && $_POST['course_start_date'] != '' && $_POST['course_estimate_date'] != '') {
                 $this->course_save('update');
             }
         }
@@ -415,5 +418,266 @@ class Admin extends CI_Controller
         } else {
             redirect('/admin/roles', 'refresh');
         }
+    }
+
+    /* Schedules page */
+    public function schedules()
+    {
+        $this->load->model('Schedules_model');
+
+        $data = $this->Schedules_model->find_all();
+        $view['data'] = $data;
+        $view['controller'] = $this;
+        
+        $this->breadcrumbs->push('การตรวจสอบ', '/admin/schedules');
+        $view['breadcrumbs'] = $this->breadcrumbs->show();
+        $this->load->view('admin/schedules', $view);
+        $this->output->set_common_meta('QASE', '', '');
+    }
+
+    /* Add schedules page */
+    public function schedule_add()
+    {
+        $this->load->model('Schedules_model');
+        $this->load->model('Teacher_has_courses_model');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
+            if (!$this->input->post('execute_day')) {
+                for ($i = 1;$i <= 7;++$i) {
+                    $_POST['execute_day'][] = $i;
+                }
+            }
+            if (!$this->input->post('execute_month')) {
+                for ($i = 1;$i <= 12;++$i) {
+                    $_POST['execute_month'][] = $i;
+                }
+            }
+            if ($this->input->post('course_year') && $this->input->post('course_id') && $this->input->post('execute_day') && $this->input->post('execute_month') && $this->input->post('execute_time')) {
+                $this->schedule_save();
+            }
+        }
+        // Course Year lists
+        $courseYearLists = array();
+        $listYear = $this->Teacher_has_courses_model->getYear();
+        foreach ($listYear as $value) {
+            $courseYearLists[$value->course_year] = $value->course_year + 543;
+        }
+        $view['courseYearLists'] = $courseYearLists;
+
+        $executeDays = array();
+        $executeDays['1'] = 'อาทิตย์';
+        $executeDays['2'] = 'จันทร์';
+        $executeDays['3'] = 'อังคาร';
+        $executeDays['4'] = 'พุธ';
+        $executeDays['5'] = 'พฤหัสบดี';
+        $executeDays['6'] = 'ศุกร์';
+        $executeDays['7'] = 'เสาร์';
+        $view['executeDays'] = $executeDays;
+
+        $executeMonths = array();
+        $executeMonths['1'] = 'มกราคม';
+        $executeMonths['2'] = 'กุมภาพันธ์';
+        $executeMonths['3'] = 'มีนาคม';
+        $executeMonths['4'] = 'เมษายน';
+        $executeMonths['5'] = 'พฤษภาคม';
+        $executeMonths['6'] = 'มิถุนายน';
+        $executeMonths['7'] = 'กรกฎาคม';
+        $executeMonths['8'] = 'สิงหาคม';
+        $executeMonths['9'] = 'กันยายน';
+        $executeMonths['10'] = 'ตุลาคม';
+        $executeMonths['11'] = 'พฤศจิกายน';
+        $executeMonths['12'] = 'ธันวาคม';
+        $view['executeMonths'] = $executeMonths;
+
+        $this->breadcrumbs->push('การตรวจสอบ', '/admin/schedules');
+        $this->breadcrumbs->push('เพิ่มการตรวจสอบ', '/admin/schedule_add/');
+        $view['breadcrumbs'] = $this->breadcrumbs->show();
+        $this->load->view('admin/schedule_add', $view);
+        $this->output->set_common_meta('QASE', '', '');
+    }
+
+    /* Edit schedules page */
+    public function schedule_edit()
+    {
+        $this->load->model('Schedules_model');
+        $this->load->model('Teacher_has_courses_model');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
+            if (!$this->input->post('execute_day')) {
+                for ($i = 1;$i <= 7;++$i) {
+                    $_POST['execute_day'][] = $i;
+                }
+            }
+            if (!$this->input->post('execute_month')) {
+                for ($i = 1;$i <= 12;++$i) {
+                    $_POST['execute_month'][] = $i;
+                }
+            }
+            if ($this->input->post('course_year') && $this->input->post('course_id') && $this->input->post('execute_day') && $this->input->post('execute_month') && $this->input->post('execute_time')) {
+                $this->schedule_save();
+            }
+        }
+        $data = $this->Schedules_model->find($this->uri->segment(3));
+        if ($data) {
+            $view['data'] = $data;
+
+            // Course Year lists
+            $courseYearLists = array();
+            $listYear = $this->Teacher_has_courses_model->getYear();
+            foreach ($listYear as $value) {
+                $courseYearLists[$value->course_year] = $value->course_year + 543;
+            }
+            $view['courseYearLists'] = $courseYearLists;
+
+            // Course lists
+            $courseLists = array();
+            $listYear = $this->Teacher_has_courses_model->getCourseYear($data->course_year);
+            foreach ($listYear as $value) {
+                $courseLists[$value->course_id] = $value->course_name;
+            }
+            $view['courseLists'] = $courseLists;
+
+            // Select days
+            $daySelects = explode(',', $data->execute_day);
+            $daySelects = array_flip($daySelects);
+            $view['daySelects'] = $daySelects;
+
+            // Select months
+            $monthSelects = explode(',', $data->execute_month);
+            $monthSelects = array_flip($monthSelects);
+            $view['monthSelects'] = $monthSelects;
+
+            $executeDays = array();
+            $executeDays['1'] = 'อาทิตย์';
+            $executeDays['2'] = 'จันทร์';
+            $executeDays['3'] = 'อังคาร';
+            $executeDays['4'] = 'พุธ';
+            $executeDays['5'] = 'พฤหัสบดี';
+            $executeDays['6'] = 'ศุกร์';
+            $executeDays['7'] = 'เสาร์';
+            $view['executeDays'] = $executeDays;
+
+            $executeMonths = array();
+            $executeMonths['1'] = 'มกราคม';
+            $executeMonths['2'] = 'กุมภาพันธ์';
+            $executeMonths['3'] = 'มีนาคม';
+            $executeMonths['4'] = 'เมษายน';
+            $executeMonths['5'] = 'พฤษภาคม';
+            $executeMonths['6'] = 'มิถุนายน';
+            $executeMonths['7'] = 'กรกฎาคม';
+            $executeMonths['8'] = 'สิงหาคม';
+            $executeMonths['9'] = 'กันยายน';
+            $executeMonths['10'] = 'ตุลาคม';
+            $executeMonths['11'] = 'พฤศจิกายน';
+            $executeMonths['12'] = 'ธันวาคม';
+            $view['executeMonths'] = $executeMonths;
+
+            $this->breadcrumbs->push('การตรวจสอบ', '/admin/schedules');
+            $this->breadcrumbs->push('แก้ไขการตรวจสอบ', '/admin/schedule_edit/');
+            $view['breadcrumbs'] = $this->breadcrumbs->show();
+            $this->load->view('admin/schedule_edit', $view);
+            $this->output->set_common_meta('QASE', '', '');
+        } else {
+            redirect('/admin/schedules', 'refresh');
+        }
+    }
+
+    /* Insert/Update schedule */
+    private function schedule_save($type = 'insert')
+    {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+        if (isset($_POST['execute_day']) && $_POST['execute_day']) {
+            $_POST['execute_day'] = implode(',', $_POST['execute_day']);
+        }
+        if (isset($_POST['execute_month']) && $_POST['execute_month']) {
+            $_POST['execute_month'] = implode(',', $_POST['execute_month']);
+        }
+        $this->form_validation->set_rules('course_year', 'course_year', 'trim|required');
+        $this->form_validation->set_rules('course_id', 'course_id', 'trim|required');
+        $this->form_validation->set_rules('execute_day', 'execute_day', 'trim|required');
+        $this->form_validation->set_rules('execute_month', 'execute_month', 'trim|required');
+        $this->form_validation->set_rules('execute_time', 'execute_time', 'trim|required');
+
+        if ($this->form_validation->run()) {
+            if ($type = 'update') {
+                $id = $this->uri->segment(3);
+                $data = $this->Schedules_model->save($_POST, $id);
+            } else {
+                $data = $this->Schedules_model->save($_POST);
+            }
+
+            if ($data) {
+                redirect('/admin/schedules', 'refresh');
+            }
+        }
+    }
+
+    /* Delete schedule */
+    public function schedule_delete()
+    {
+        $this->load->model('Schedules_model');
+        $data = $this->Schedules_model->delete($this->uri->segment(3));
+        redirect('/admin/schedules', 'refresh');
+    }
+
+    /* Date Thai */
+    public function _DateThai($date, $short = true)
+    {
+        $arr = explode('-', $date);
+        $year = $arr[0];
+        $month = intval($arr[1]);
+        $day = intval($arr[2]);
+        if ($short) {
+            $monthList = array('1' => 'ม.ค.', '2' => 'ก.พ.', '3' => 'มี.ค.', '4' => 'เม.ษ.', '5' => 'พ.ค.', '6' => 'มิ.ย.',
+                              '7' => 'ก.ค.', '8' => 'ส.ค.', '9' => 'ก.ย.', '10' => 'ต.ค.', '11' => 'พ.ย.', '12' => 'ธ.ค.', );
+        } else {
+            $monthList = array('1' => 'มกราคม', '2' => 'กุมภาพันธ์', '3' => 'มีนาคม', '4' => 'เมษายน', '5' => 'พฤษภาคม', '6' => 'มิถุนายน',
+                              '7' => 'กรกฎาคม', '8' => 'สิงหาคม', '9' => 'กันยายน', '10' => 'ตุลาคม', '11' => 'พฤศจิกายน', '12' => 'ธันวาคม', );
+        }
+        $month = isset($monthList[$month]) ? $monthList[$month] : '';
+        if ($month) {
+            return $day.' '.$month.' '.$year;
+        } else {
+            return $date;
+        }
+    }
+
+    /* Generate Days */
+    public function _GenDays($days)
+    {
+        $dayList = explode(',', $days);
+        $data = array();
+        $list = array('1' => 'อา', '2' => 'จ', '3' => 'อ', '4' => 'พ', '5' => 'พฤ', '6' => 'ศ', '7' => 'ส');
+        foreach ($dayList as $value) {
+            if (isset($list[$value])) {
+                $data[] = $list[$value];
+            }
+        }
+        if (count($data) == 7) {
+            $result = 'ทุกวัน';
+        } else {
+            $result = implode(', ', $data);
+        }
+
+        return $result;
+    }
+
+    /* Generate Month */
+    public function _GenMonth($months)
+    {
+        $monthList = explode(',', $months);
+        $data = array();
+        $list = array('1' => 'ม.ค.', '2' => 'ก.พ.', '3' => 'มี.ค.', '4' => 'เม.ษ.', '5' => 'พ.ค.', '6' => 'มิ.ย.', '7' => 'ก.ค.', '8' => 'ส.ค.', '9' => 'ก.ย.', '10' => 'ต.ค.', '11' => 'พ.ย.', '12' => 'ธ.ค.');
+        foreach ($monthList as $value) {
+            if (isset($list[$value])) {
+                $data[] = $list[$value];
+            }
+        }
+        if (count($data) == 12) {
+            $result = 'ทุกเดือน';
+        } else {
+            $result = implode(', ', $data);
+        }
+
+        return $result;
     }
 }

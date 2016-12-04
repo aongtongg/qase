@@ -13,6 +13,7 @@
           <form id="course_form" data-toggle="validator" role="form" method="post">
               <div class="form-group">
                   <label for="course_name">กฎ</label>
+                  <?php if (isset($rules) && is_array($rules)): ?>
                   <?php foreach ($rules as $value): ?>
                   <div class="checkbox">
                     <label>
@@ -21,6 +22,7 @@
                     </label>
                   </div>
                   <?php endforeach; ?>
+                  <?php endif; ?>
               </div>
               <div class="pull-right">
                   <a class="btn btn-default" href="<?php echo base_url('admin/roles'); ?>">ยกเลิก</a>
