@@ -12,11 +12,11 @@ class Teachers_model extends CI_Model
     public function find_all()
     {
         $data = $this->db->query('SELECT
-                                    teacher.tid AS teacher_id,
-                                    teacher.tname AS first_name,
-                                    teacher.tsname AS last_name
+                                    members.members_id AS teacher_id,
+                                    members.members_fname AS first_name,
+                                    members.members_sname AS last_name
                                   FROM
-                                    seminar.teacher');
+                                    seminar.members');
 
         if ($data->result()) {
             return $data->result();
@@ -29,13 +29,13 @@ class Teachers_model extends CI_Model
     public function find($id)
     {
         $data = $this->db->query('SELECT
-                                    teacher.tid AS teacher_id,
-                                    teacher.tname AS first_name,
-                                    teacher.tsname AS last_name
+                                    members.members_id AS teacher_id,
+                                    members.members_fname AS first_name,
+                                    members.members_sname AS last_name
                                   FROM
-                                    seminar.teacher
+                                    seminar.members
                                   WHERE
-                                    teacher.tid = "'.$id.'"');
+                                    members.tid = "'.$id.'"');
 
         if ($data->result()) {
             return $data->first_row();

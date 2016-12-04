@@ -12,20 +12,20 @@
     <div class="col-md-6">
         <form id="course_form" data-toggle="validator" role="form" method="post">
             <div class="form-group">
-                <label for="teacher_id">อาจารย์</label>
-                <select class="form-control" id="teacher_id" name="teacher_id" required="">
-                    <option value="">กรุณาเลือกอาจารย์</option>
-                    <?php foreach ($teacherLists as $key => $value): ?>
-                    <option value="<?php echo $key ?>" <?php echo $teacher_id == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-group">
                 <label for="role_id">บทบาท</label>
                 <select class="form-control" id="role_id" name="role_id" required="">
                     <option value="">กรุณาเลือกบทบาท</option>
                     <?php foreach ($roleLists as $key => $value): ?>
                       <option value="<?php echo $key ?>" <?php echo $role_id == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="teacher_id">อาจารย์</label>
+                <select class="form-control" id="teacher_id" name="teacher_id" required="">
+                    <option value="">กรุณาเลือกอาจารย์</option>
+                    <?php foreach ($teacherLists as $key => $value): ?>
+                    <option value="<?php echo $key ?>" <?php echo $teacher_id == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

@@ -13,8 +13,8 @@ class Teacher_has_courses_model extends CI_Model
     {
         $data = $this->db->query('SELECT
                                     teacher_has_courses.teacher_id,
-                                    teacher.tname AS first_name,
-                                    teacher.tsname AS last_name,
+                                    members.members_fname AS first_name,
+                                    members.members_sname AS last_name,
                                     teacher_has_courses.course_id,
                                     courses.course_name,
                                     courses.course_start_date,
@@ -29,7 +29,7 @@ class Teacher_has_courses_model extends CI_Model
                                   LEFT JOIN
                                     courses ON courses.course_id = teacher_has_courses.course_id
                                   LEFT JOIN
-                                    seminar.teacher ON teacher.tid = teacher_has_courses.teacher_id');
+                                    seminar.members ON members.members_id = teacher_has_courses.teacher_id');
 
         if ($data->result()) {
             return $data->result();
@@ -118,8 +118,8 @@ class Teacher_has_courses_model extends CI_Model
     {
         $data = $this->db->query('SELECT
                                     teacher_has_courses.teacher_id,
-                                    teacher.tname AS first_name,
-                                    teacher.tsname AS last_name,
+                                    members.members_fname AS first_name,
+                                    members.members_sname AS last_name,
                                     teacher_has_courses.course_id,
                                     courses.course_name,
                                     courses.course_start_date,
@@ -134,11 +134,11 @@ class Teacher_has_courses_model extends CI_Model
                                   LEFT JOIN
                                     courses ON courses.course_id = teacher_has_courses.course_id
                                   LEFT JOIN
-                                    seminar.teacher ON teacher.tid = teacher_has_courses.teacher_id
+                                    seminar.members ON members.members_id = teacher_has_courses.teacher_id
                                   WHERE
                                     teacher_has_courses.course_year = "'.$course_year.'" AND
                                     teacher_has_courses.course_id = "'.$course_id.'"
-                                  ORDER BY teacher_has_courses.role_id, teacher.tname');
+                                  ORDER BY teacher_has_courses.role_id, members.members_fname');
 
         if ($data->result()) {
             return $data->result();
