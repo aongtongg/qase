@@ -115,10 +115,11 @@
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo root_url(); ?>'">Home</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin'); ?>'" title="Quality Assurance">Quality Assurance</div>
 						<?php if (isset($_SESSION['members_class']) && $_SESSION['members_class'] >= 2): ?>
-						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('teacher'); ?>'" title="อาจารย์">อาจารย์</div>
+						<!--<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('teacher'); ?>'" title="อาจารย์">อาจารย์</div>-->
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/courses'); ?>'" title="หลักสูตร">หลักสูตร</div>
-						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/teacher_has_courses'); ?>'" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/roles'); ?>'" title="บทบาท">บทบาท</div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/teacher_has_courses'); ?>'" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</div>
+						<div class="nav-head cpt"></div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/schedules'); ?>'" title="การตรวจสอบ">การตรวจสอบ</div>
 						<?php endif; ?>
 						<div class="nav-head-end"></div>

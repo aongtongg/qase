@@ -310,6 +310,7 @@ class Kpis_model extends CI_Model
                                     fact.frhid = "'.$researcher_id.'" AND
                                     research.ryear >= "'.$research_year.'"
                                   GROUP BY fact.frid');
+
         if ($data->result()) {
             $data = $data->first_row();
             if ($data->count_all >= 1) {
@@ -325,20 +326,84 @@ class Kpis_model extends CI_Model
     }
 
     /* Check rule 8 */
-    public function check_rule_8($researcher_id)
+    public function check_rule_8($course_id, $role_id)
     {
         // >= 3 ท่าน
+        $data = $this->db->query('SELECT
+                                    COUNT(teacher_id) AS count_all
+                                  FROM
+                                    teacher_has_courses
+                                  WHERE
+                                    course_id = "'.$course_id.'" AND
+                                    role_id = "'.$role_id.'"');
+
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($data->count_all >= 3) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
     }
 
     /* Check rule 9 */
-    public function check_rule_9($researcher_id)
+    public function check_rule_9($course_id, $role_id)
     {
         // อ ประจำหลักสูตร + ผู้ทรงคุณวุฒิ >= 3 คน
+        $data = $this->db->query('SELECT
+                                    COUNT(teacher_id) AS count_all
+                                  FROM
+                                    teacher_has_courses
+                                  JOIN
+                                    seminar.members ON members.members_id = teacher_has_courses.teacher_id
+                                  WHERE
+                                    members.members_type IN (1, 3) AND
+                                    course_id = "'.$course_id.'" AND
+                                    role_id = "'.$role_id.'"');
+
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($data->count_all >= 3) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
     }
 
     /* Check rule 10 */
-    public function check_rule_10($researcher_id)
+    public function check_rule_10($course_id, $teacher_id)
     {
         // ประธานธานไม่ใช่อ ที่ปรึกษา IS หลัก หรือ อ ที่ปรึกษา IS ร่วม
+        $data = $this->db->query('SELECT
+                                    COUNT(teacher_id) AS count_all
+                                  FROM
+                                    teacher_has_courses
+                                  WHERE
+                                    teacher_id = "'.$teacher_id.'" AND
+                                    course_id = "'.$course_id.'" AND
+                                    role_id IN (4, 5)');
+
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($data->count_all > 0) {
+                $result = false;
+            } else {
+                $result = true;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
     }
 }

@@ -78,14 +78,15 @@ class Api extends CI_Controller
             foreach ($schedules as $value_1) {
                 // if
                 //print_r($value_1);
-                $sar_id = $this->Sars_model->save($value_1->course_id);
+                $course_id = $value_1->course_id;
+                $sar_id = $this->Sars_model->save($course_id);
                 //echo '<hr>';
-                $teacher_has_courses = $this->Teacher_has_courses_model->find_course($value_1->course_id);
+                $teacher_has_courses = $this->Teacher_has_courses_model->find_course($course_id);
                 //print_r($teacher_has_courses);
                 $checkRoles = array();
                 //echo '<hr>';
                 foreach ($teacher_has_courses as $value_2) {
-                    $this->_check_rule($sar_id, $value_2->teacher_id, $value_2->researcher_id, $value_2->role_id);
+                    $this->_check_rule($course_id, $sar_id, $value_2->teacher_id, $value_2->researcher_id, $value_2->role_id);
                     //print_r($value_2);
                 }
             }
@@ -96,7 +97,7 @@ class Api extends CI_Controller
         return $this->json($data);
     }
 
-    private function _check_rule($sar_id, $teacher_id, $researcher_id, $role_id)
+    private function _check_rule($course_id, $sar_id, $teacher_id, $researcher_id, $role_id)
     {
         $rules = $this->Role_has_rules_model->find($role_id);
         // Map Role and KPI
@@ -144,28 +145,19 @@ class Api extends CI_Controller
                         $checked = $this->Kpis_model->check_rule_7($researcher_id);
                     break;
                     case 8:
-                        $checked = true;
-                        if ($checked) {
-                        } else {
-                            $pass = false;
-                        }
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_8($course_id, $role_id);
                     break;
                     case 9:
-                        $checked = true;
-                        if ($checked) {
-                        } else {
-                            $pass = false;
-                        }
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_9($course_id, $role_id);
                     break;
                     case 10:
-                        $checked = true;
-                        if ($checked) {
-                        } else {
-                            $pass = false;
-                        }
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_10($course_id, $teacher_id);
                     break;
                     default:
-                        $pass = false;
+                        //$checked = true;
                     break;
                 }
                 if ($inCase) {
