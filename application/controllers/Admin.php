@@ -327,6 +327,9 @@ class Admin extends CI_Controller
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
                 if (isset($_POST['delete'])) {
                     $data = $this->Teacher_has_courses_model->delete_course($course_id, $role_id, $teacher_id);
+                    if ($data) {
+                        redirect('/admin/teacher_has_courses/'.$course_id, 'refresh');
+                    }
                 } else {
                     $this->load->helper('form');
                     $this->load->library('form_validation');
@@ -658,6 +661,68 @@ class Admin extends CI_Controller
         } else {
             redirect('/admin/teacher_has_courses', 'refresh');
         }
+    }
+
+    /* Sars detail */
+    public function _SarDetails($pass, $fail)
+    {
+        $this->load->model('Teachers_model');
+        $this->load->model('Rules_model');
+        $pass = explode(',', $pass);
+        $data = array();
+        $rules = $this->Rules_model->find_all();
+        $ruleLists = array();
+        if ($rules) {
+            foreach ($rules as $key => $value) {
+                $ruleLists[$value->rule_id] = $value->rule_name;
+            }
+        }
+        if ($pass) {
+            foreach ($pass as $value) {
+                if ($value) {
+                    $value = explode(':', $value);
+                    $teacher_id = $value[0];
+                    $rule_id = $value[1];
+                    if (!isset($data[$teacher_id])) {
+                        $teacher = $this->Teachers_model->find($teacher_id);
+                        if ($teacher) {
+                            $data[$teacher_id]['teacher_id'] = $teacher->teacher_id;
+                            $data[$teacher_id]['name'] = $teacher->first_name.' '.$teacher->last_name;
+                            $data[$teacher_id]['pass'] = array();
+                            $data[$teacher_id]['fail'] = array();
+                        }
+                    }
+                    if (isset($ruleLists[$rule_id])) {
+                        $data[$teacher_id]['pass']['rule_id'][$rule_id]['rule_id'] = $rule_id;
+                        $data[$teacher_id]['pass']['rule_id'][$rule_id]['rule_name'] = $ruleLists[$rule_id];
+                    }
+                }
+            }
+        }
+        $fail = explode(',', $fail);
+        if ($fail) {
+            foreach ($fail as $value) {
+                if ($value) {
+                    $value = explode(':', $value);
+                    $teacher_id = $value[0];
+                    $rule_id = $value[1];
+                    if (!isset($data[$teacher_id])) {
+                        $teacher = $this->Teachers_model->find($teacher_id);
+                        if ($teacher) {
+                            $data[$teacher_id]['teacher_id'] = $teacher->teacher_id;
+                            $data[$teacher_id]['name'] = $teacher->first_name.' '.$teacher->last_name;
+                            $data[$teacher_id]['pass'] = array();
+                        }
+                    }
+                    if (isset($ruleLists[$rule_id])) {
+                        $data[$teacher_id]['fail']['rule_id'][$rule_id]['rule_id'] = $rule_id;
+                        $data[$teacher_id]['fail']['rule_id'][$rule_id]['rule_name'] = $ruleLists[$rule_id];
+                    }
+                }
+            }
+        }
+
+        return $data;
     }
 
     /* Date Thai */

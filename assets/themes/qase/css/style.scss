@@ -6,13 +6,18 @@ html {
 #wrap {}
 
 #wrapper {
+    a:focus {
+        outline: 0;
+    }
+
     a:active {
         font-weight: normal;
     }
 
     h1,
     h2,
-    h3 {
+    h3,
+    h4 {
         margin-top: 5px;
         margin-bottom: 5px;
     }
@@ -27,6 +32,10 @@ html {
 
     h3 {
         font-size: 24px;
+    }
+
+    h4 {
+        font-size: 18px;
     }
 
     #loginForm {
@@ -126,6 +135,16 @@ html {
 
         tbody > tr.level-3 {
             background-color: #fff;
+        }
+
+        tbody > tr.kpi-pass {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+
+        tbody > tr.kpi-fail {
+            background-color: #f2dede;
+            color: #a94442;
         }
     }
 }

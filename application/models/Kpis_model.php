@@ -43,28 +43,24 @@ class Kpis_model extends CI_Model
         }
     }
 
-    /* Check rule 2 */
-    public function check_rule_2($researcher_id)
+    /* Check rule 1 */
+    public function check_rule_1($researcher_id)
     {
-        $research_id = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'))).'-5 year'));
-        // All in 5 year
-        // More than 3 all
-        // at least than 1 research
+        // อาจารย์ประจำ (เต็มเวลา) + จบโท
         $data = $this->db->query('SELECT
-                                    fact.frid,
-                                    SUM(IF(fact.fdtype=1,1,0)) AS count_research,
-                                    COUNT(fact.frid) AS count_all
+                                    degree.degree_id,
+                                    degree.degree_name,
+                                    members.members_type
                                   FROM
-                                    seminar.fact
-                                  JOIN seminar.research ON research.rid = fact.frid
+                                    seminar.members
+                                  JOIN
+                                    seminar.degree ON degree.degree_id = members.members_degree
                                   WHERE
-                                    fact.frhid = "'.$researcher_id.'" AND
-                                    research.ryear >= "'.$research_id.'"
-                                  GROUP BY fact.frid');
+                                    members.members_relation = "'.$researcher_id.'"');
 
         if ($data->result()) {
             $data = $data->first_row();
-            if ($data->count_research > 1 && $data->count_all > 3) {
+            if ($data->degree_id >= 2 && $data->members_type == 1) {
                 $result = true;
             } else {
                 $result = false;
@@ -74,5 +70,275 @@ class Kpis_model extends CI_Model
         } else {
             return false;
         }
+    }
+
+    /* Check rule 2 */
+    public function check_rule_2($researcher_id)
+    {
+        // มีผลงาน 3 เรื่องภายใน 5 ปี และ 1 ใน 3 เรื่องเป็นวิจัย
+        $research_year = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'))).'-5 year'));
+        $data = $this->db->query('SELECT
+                                    fact.frid,
+                                    SUM(IF(fact.fdtype=1,1,0)) AS count_research,
+                                    COUNT(fact.frid) AS count_all
+                                  FROM
+                                    seminar.fact
+                                  JOIN
+                                    seminar.research ON research.rid = fact.frid
+                                  WHERE
+                                    fact.frhid = "'.$researcher_id.'" AND
+                                    research.ryear >= "'.$research_year.'"
+                                  GROUP BY fact.frid');
+
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($data->count_research >= 1 && $data->count_all >= 3) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /* Check rule 3 */
+    public function check_rule_3($researcher_id)
+    {
+        // อาจารย์ใหม่ + จบ ดร. + 1 เรื่องภายใน 2 ปี or 2 เรื่องภายใน 4 ปี or 3 เรื่องภายใน 5 ปี
+        $data = $this->db->query('SELECT
+                                    degree.degree_id,
+                                    degree.degree_name,
+                                    members.members_type
+                                  FROM
+                                    seminar.members
+                                  JOIN
+                                    seminar.degree ON degree.degree_id = members.members_degree
+                                  WHERE
+                                    members.members_relation = "'.$researcher_id.'"');
+
+        if ($data->result()) {
+            $degree_id = $data->first_row()->degree_id;
+        } else {
+            $degree_id = '';
+        }
+        $research_year = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'))).'-2 year'));
+        $data = $this->db->query('SELECT
+                                    fact.frid,
+                                    COUNT(fact.frid) AS count_all
+                                  FROM
+                                    seminar.fact
+                                  JOIN
+                                    seminar.research ON research.rid = fact.frid
+                                  WHERE
+                                    fact.frhid = "'.$researcher_id.'" AND
+                                    research.ryear >= "'.$research_year.'"
+                                  GROUP BY fact.frid');
+
+        $result = false;
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($degree_id == 3 && $data->count_all >= 1) {
+                $result = true;
+            }
+        }
+        if (!$result) {
+            $research_year = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'))).'-4 year'));
+            $data = $this->db->query('SELECT
+                                        fact.frid,
+                                        COUNT(fact.frid) AS count_all
+                                      FROM
+                                        seminar.fact
+                                      JOIN
+                                        seminar.research ON research.rid = fact.frid
+                                      WHERE
+                                        fact.frhid = "'.$researcher_id.'" AND
+                                        research.ryear >= "'.$research_year.'"
+                                      GROUP BY fact.frid');
+            if ($data->result()) {
+                $data = $data->first_row();
+                if ($data->count_all >= 2) {
+                    $result = true;
+                }
+            }
+        }
+        if (!$result) {
+            $research_year = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'))).'-5 year'));
+            $data = $this->db->query('SELECT
+                                        fact.frid,
+                                        COUNT(fact.frid) AS count_all
+                                      FROM
+                                        seminar.fact
+                                      JOIN
+                                        seminar.research ON research.rid = fact.frid
+                                      WHERE
+                                        fact.frhid = "'.$researcher_id.'" AND
+                                        research.ryear >= "'.$research_year.'"
+                                      GROUP BY fact.frid');
+            if ($data->result()) {
+                $data = $data->first_row();
+                if ($data->count_all >= 3) {
+                    $result = true;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /* Check rule 4 */
+    public function check_rule_4($researcher_id)
+    {
+        // อาจารย์ประจำ (เต็มเวลา) + จบ เอก Or โท+รศ
+        $data = $this->db->query('SELECT
+                                    degree.degree_id,
+                                    degree.degree_name,
+                                    members.members_type,
+                                    position.position_id,
+                                    position.position_name
+                                  FROM
+                                    seminar.members
+                                  JOIN
+                                    seminar.degree ON degree.degree_id = members.members_degree
+                                  JOIN
+                                    seminar.position ON position.position_id = members.members_position
+                                  WHERE
+                                    members.members_relation = "'.$researcher_id.'"');
+
+        if ($data->result()) {
+            $data = $data->first_row();
+            if (($data->degree_id == 3 && $data->members_type == 1) || ($data->degree_id == 2 && $data->position_id == 5)) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /* Check rule 5 */
+    public function check_rule_5($researcher_id)
+    {
+        // ผู้ทรงคุณวุฒิ + จบ ดร และมีงานวิจัย 10 เรื่อง
+        $data = $this->db->query('SELECT
+                                    degree.degree_id,
+                                    degree.degree_name,
+                                    members.members_type
+                                  FROM
+                                    seminar.members
+                                  JOIN
+                                    seminar.degree ON degree.degree_id = members.members_degree
+                                  WHERE
+                                    members.members_relation = "'.$researcher_id.'"');
+
+        if ($data->result()) {
+            $member_type = $data->first_row()->members_type;
+        } else {
+            $member_type = '';
+        }
+        $data = $this->db->query('SELECT
+                                    fact.frid,
+                                    COUNT(fact.frid) AS count_all
+                                  FROM
+                                    seminar.fact
+                                  JOIN
+                                    seminar.research ON research.rid = fact.frid
+                                  WHERE
+                                    fact.frhid = "'.$researcher_id.'"
+                                  GROUP BY fact.frid');
+
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($member_type == 3 && $data->count_all >= 10) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /* Check rule 6 */
+    public function check_rule_6($researcher_id)
+    {
+        // อาจารย์ใหม่ + จบ ดร
+        $data = $this->db->query('SELECT
+                                    degree.degree_id,
+                                    degree.degree_name,
+                                    members.members_type
+                                  FROM
+                                    seminar.members
+                                  JOIN
+                                    seminar.degree ON degree.degree_id = members.members_degree
+                                  WHERE
+                                    members.members_relation = "'.$researcher_id.'"');
+
+        if ($data->result()) {
+            if ($data->first_row()->degree_id == 3) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /* Check rule 7 */
+    public function check_rule_7($researcher_id)
+    {
+        // มีประสบการณ์ + มีผลงาน 1 เรื่องภายใน 5 ปี
+        $research_year = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'))).'-5 year'));
+        $data = $this->db->query('SELECT
+                                    fact.frid,
+                                    COUNT(fact.frid) AS count_all
+                                  FROM
+                                    seminar.fact
+                                  JOIN
+                                    seminar.research ON research.rid = fact.frid
+                                  WHERE
+                                    fact.frhid = "'.$researcher_id.'" AND
+                                    research.ryear >= "'.$research_year.'"
+                                  GROUP BY fact.frid');
+        if ($data->result()) {
+            $data = $data->first_row();
+            if ($data->count_all >= 1) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /* Check rule 8 */
+    public function check_rule_8($researcher_id)
+    {
+        // >= 3 ท่าน
+    }
+
+    /* Check rule 9 */
+    public function check_rule_9($researcher_id)
+    {
+        // อ ประจำหลักสูตร + ผู้ทรงคุณวุฒิ >= 3 คน
+    }
+
+    /* Check rule 10 */
+    public function check_rule_10($researcher_id)
+    {
+        // ประธานธานไม่ใช่อ ที่ปรึกษา IS หลัก หรือ อ ที่ปรึกษา IS ร่วม
     }
 }

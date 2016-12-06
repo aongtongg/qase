@@ -37,7 +37,7 @@ class Teachers_model extends CI_Model
                                   FROM
                                     seminar.members
                                   WHERE
-                                    members.tid = "'.$id.'" AND
+                                    members.members_id = "'.$id.'" AND
                                     members.members_type != "0"');
 
         if ($data->result()) {

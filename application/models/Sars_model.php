@@ -159,4 +159,21 @@ class Sars_model extends CI_Model
 
         return $data;
     }
+
+    /* Insert/Update data */
+    public function save($course_id)
+    {
+        $result = false;
+
+        $data = $this->db->query('INSERT INTO sars (course_id, sar_date) VALUES ("'.$course_id.'", "'.date('Y-m-d H:i:s').'")');
+        if ($data) {
+            $result = $this->db->insert_id();
+            // Create KPI
+            for ($i = 2; $i <= 13; ++$i) {
+                $kpi = $this->db->query('INSERT INTO sar_has_kpis (sar_id, kpi_id) VALUES ("'.$result.'", "'.$i.'")');
+            }
+        }
+
+        return $result;
+    }
 }

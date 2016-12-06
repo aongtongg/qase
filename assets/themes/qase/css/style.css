@@ -2,11 +2,14 @@ html {
   min-width: 1280px;
   background: #e4e4e4; }
 
+#wrapper a:focus {
+  outline: 0; }
 #wrapper a:active {
   font-weight: normal; }
 #wrapper h1,
 #wrapper h2,
-#wrapper h3 {
+#wrapper h3,
+#wrapper h4 {
   margin-top: 5px;
   margin-bottom: 5px; }
 #wrapper h1 {
@@ -15,6 +18,8 @@ html {
   font-size: 30px; }
 #wrapper h3 {
   font-size: 24px; }
+#wrapper h4 {
+  font-size: 18px; }
 #wrapper #loginForm {
   margin-top: 20px;
   margin-bottom: 20px; }
@@ -66,5 +71,11 @@ html {
   background-color: #5affff; }
 #kpi .table.table-kpi tbody > tr.level-3 {
   background-color: #fff; }
+#kpi .table.table-kpi tbody > tr.kpi-pass {
+  background-color: #dff0d8;
+  color: #3c763d; }
+#kpi .table.table-kpi tbody > tr.kpi-fail {
+  background-color: #f2dede;
+  color: #a94442; }
 
 /*# sourceMappingURL=style.css.map */

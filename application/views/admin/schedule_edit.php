@@ -41,7 +41,7 @@
                         <?php foreach ($executeDays as $key => $value): ?>
                         <div class="checkbox">
                           <label>
-                            <input name="execute_day[]" type="checkbox" value="<?php echo $key; ?>" <?php echo isset($daySelects[$key]) && $daySelects[$key] ? 'checked' : ''; ?>>
+                            <input name="execute_day[]" type="checkbox" value="<?php echo $key; ?>" <?php echo isset($daySelects[$key]) ? 'checked' : ''; ?>>
                             <?php echo $value; ?>
                           </label>
                         </div>
@@ -56,7 +56,7 @@
                         <?php foreach ($executeMonths as $key => $value): ?>
                         <div class="checkbox">
                           <label>
-                            <input name="execute_month[]" type="checkbox" value="<?php echo $key; ?>" <?php echo isset($monthSelects[$key]) && $monthSelects[$key] ? 'checked' : ''; ?>>
+                            <input name="execute_month[]" type="checkbox" value="<?php echo $key; ?>" <?php echo isset($monthSelects[$key]) ? 'checked' : ''; ?>>
                             <?php echo $value; ?>
                           </label>
                         </div>

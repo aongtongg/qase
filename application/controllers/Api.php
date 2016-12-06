@@ -60,6 +60,8 @@ class Api extends CI_Controller
         $this->load->model('Teacher_has_courses_model');
         $this->load->model('Role_has_rules_model');
         $this->load->model('Kpis_model');
+        $this->load->model('Sars_model');
+        $this->load->model('Sar_has_kpis_model');
 
         $schedules = $this->Schedules_model->find_all();
 
@@ -71,77 +73,112 @@ class Api extends CI_Controller
             }
         }
 
-        echo '<pre>';
-        print_r($ruleList);
+        //echo '<pre>';
         if ($schedules) {
-            $this->_check_rule(10, 1972, 6);
             foreach ($schedules as $value_1) {
+                // if
+                //print_r($value_1);
+                $sar_id = $this->Sars_model->save($value_1->course_id);
+                //echo '<hr>';
                 $teacher_has_courses = $this->Teacher_has_courses_model->find_course($value_1->course_id);
-                $checkRoles = array();
-                echo '<hr>';
-                foreach ($teacher_has_courses as $value_2) {
-                    print_r($value_2);
-                    $role_id = $value_2->role_id;
-                    if ($role_id == 6) {
-                        //$checkRoles[$role_id][] = '';
-                    }
-                }
                 //print_r($teacher_has_courses);
-                //break;
+                $checkRoles = array();
+                //echo '<hr>';
+                foreach ($teacher_has_courses as $value_2) {
+                    $this->_check_rule($sar_id, $value_2->teacher_id, $value_2->researcher_id, $value_2->role_id);
+                    //print_r($value_2);
+                }
             }
-            echo '<hr>';
         }
-        print_r($schedules);
-        die();
+
+        $data = array('result' => 1, 'data' => 'success');
+
+        return $this->json($data);
     }
-    private function _check_rule($teacher_id, $researcher_id, $role_id)
+
+    private function _check_rule($sar_id, $teacher_id, $researcher_id, $role_id)
     {
         $rules = $this->Role_has_rules_model->find($role_id);
-        if ($rules) {
+        // Map Role and KPI
+        $mapRoleKpi = array();
+        $mapRoleKpi[1] = 6;
+        $mapRoleKpi[2] = 4;
+        $mapRoleKpi[3] = 5;
+        $mapRoleKpi[4] = 7;
+        $mapRoleKpi[5] = 8;
+        $mapRoleKpi[6] = 9;
+
+        if ($rules && isset($mapRoleKpi[$role_id])) {
+            $kpi_id = $mapRoleKpi[$role_id];
             $ruleList = array();
+            $pass = true;
             foreach ($rules as $value) {
+                $inCase = false;
                 switch ($value->rule_id) {
                     case 1:
-
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_1($researcher_id);
                     break;
                     case 2:
+                        $inCase = true;
                         $checked = $this->Kpis_model->check_rule_2($researcher_id);
-                        if ($checked) {
-
-                        } else {
-
-                        }
                     break;
                     case 3:
-
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_3($researcher_id);
                     break;
                     case 4:
-
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_4($researcher_id);
                     break;
                     case 5:
-
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_5($researcher_id);
                     break;
                     case 6:
-
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_6($researcher_id);
                     break;
                     case 7:
-
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_7($researcher_id);
                     break;
                     case 8:
-
+                        $checked = true;
+                        if ($checked) {
+                        } else {
+                            $pass = false;
+                        }
                     break;
                     case 9:
-
+                        $checked = true;
+                        if ($checked) {
+                        } else {
+                            $pass = false;
+                        }
                     break;
                     case 10:
-
+                        $checked = true;
+                        if ($checked) {
+                        } else {
+                            $pass = false;
+                        }
                     break;
                     default:
+                        $pass = false;
                     break;
+                }
+                if ($inCase) {
+                    if ($checked) {
+                        $this->Sar_has_kpis_model->update_pass_rule($sar_id, $kpi_id, $teacher_id, $value->rule_id);
+                    } else {
+                        $pass = false;
+                        $this->Sar_has_kpis_model->update_fail_rule($sar_id, $kpi_id, $teacher_id, $value->rule_id);
+                    }
                 }
             }
         }
 
-        return false;
+        return $pass;
     }
 }
