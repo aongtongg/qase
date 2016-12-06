@@ -169,7 +169,7 @@ class Sars_model extends CI_Model
         if ($data) {
             $result = $this->db->insert_id();
             // Create KPI
-            for ($i = 2; $i <= 13; ++$i) {
+            for ($i = 2; $i <= 9; ++$i) {
                 $kpi = $this->db->query('INSERT INTO sar_has_kpis (sar_id, kpi_id) VALUES ("'.$result.'", "'.$i.'")');
             }
         }
