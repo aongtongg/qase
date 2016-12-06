@@ -217,6 +217,9 @@
 					//$('body>.container').css('padding-bottom', heightFooter);
 				});
 			});
+	    var HideMessage = function() {
+	      $('#message').fadeOut();
+	    }
 		</script>
 	</body>
 </html>

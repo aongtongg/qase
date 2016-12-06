@@ -3,6 +3,12 @@
     <div id="message" class="alert alert-danger" onclick="HideMessage();">
         <?php echo validation_errors(); ?>
     </div>
+    <?php elseif (isset($message) && $message): ?>
+    <div class="col-md-12">
+        <div id="message" class="alert alert-danger" onclick="HideMessage();">
+            <?php echo $message; ?>
+        </div>
+    </div>
     <?php endif; ?>
     <div class="col-md-12">
         <h1>เพิ่มหลักสูตร</h1>
@@ -11,7 +17,7 @@
 <div class="row">
     <div class="col-md-6">
         <form id="course_form" data-toggle="validator" role="form" method="post">
-            <?php if (!$course_year && !$course_id): ?>
+            <?php if (!$course_id): ?>
             <div class="form-group">
                 <label for="course_year">ปีการศึกษา</label>
                 <select class="form-control" id="course_year" name="course_year" required="">
@@ -27,11 +33,6 @@
                 <label for="course_id">หลักสูตร</label>
                 <select class="form-control" id="course_id" name="course_id" required="">
                     <option value="">กรุณาเลือกหลักสูตร</option>
-                    <?php if (isset($courseLists) && is_array($courseLists)): ?>
-                    <?php foreach ($courseLists as $key => $value): ?>
-                    <option value="<?php echo $key ?>" <?php echo isset($_POST['course_id']) && $_POST['course_id'] == $key ? 'selected' : '';  ?>><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
                 </select>
             </div>
             <?php endif;?>
@@ -58,8 +59,8 @@
                 </select>
             </div>
             <div class="pull-right">
-                <?php if ($course_year && $course_id): ?>
-                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'.$course_year.'/'.$course_id); ?>">ยกเลิก</a>
+                <?php if ($course_id): ?>
+                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'.$course_id); ?>">ยกเลิก</a>
                 <?php else: ?>
                 <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'); ?>">ยกเลิก</a>
                 <?php endif; ?>
@@ -68,3 +69,39 @@
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#course_year').change(function(){
+            getCourseYear();
+        });
+    });
+    var getCourseYear = function() {
+        var param = {
+            course_year: $('#course_year').val()
+        }
+        var options = {
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            type: 'POST',
+            url: BASE_URL + 'api/getCourseYear',
+            data: param
+        }
+        $.ajax(options).done(function(res) {
+            //console.log('result', res);
+            var courses = '';
+            if (res.result == 1 && res.data) {
+                courses = '<option value="">กรุณาเลือกหลักสูตร</option>';
+                $.each(res.data, function(key, value) {
+                    courses += '<option value="' + value.course_id + '">' + value.course_name + '</option>';
+                });
+            } else {
+              courses = '<option value="">ยังไม่มีหลักสูตรในปีการศึกษา ' + (parseInt($('#course_year').val()) + 543) + '</option>';
+            }
+            $('#course_id').html(courses);
+        }).error(function(err) {
+            //console.log('error ', err);
+            var courses = '<option value="">ยังไม่มีหลักสูตรในปีการศึกษา ' + (parseInt($('#course_year').val()) + 543) + '</option>';
+            $('#course_id').html(courses);
+        });
+    };
+</script>

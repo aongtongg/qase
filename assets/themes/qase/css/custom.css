@@ -69,7 +69,8 @@ body {
   border-color: #551aad; }
 
 .btn-danger.disabled,
-.btn-danger:link {
+.btn-danger:link,
+.btn-danger:visited {
   color: #fff; }
 
 .btn.disabled,

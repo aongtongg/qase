@@ -14,6 +14,9 @@ class Teacher extends CI_Controller
 
     private function _init()
     {
+        if (!isset($_SESSION['members_class'])) {
+            redirect(root_url(), 'refresh');
+        }
         $this->output->set_template('qase');
 
         $this->load->js('assets/themes/qase/js/validator.min.js');

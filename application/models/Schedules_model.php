@@ -15,11 +15,12 @@ class Schedules_model extends CI_Model
                                     schedules.schedule_id,
                                     schedules.course_id,
                                     courses.course_name,
-                                    schedules.course_year,
+                                    courses.course_year,
                                     schedules.execute_day,
                                     schedules.execute_month,
                                     schedules.execute_time,
-                                    schedules.schedule_active
+                                    schedules.schedule_active,
+                                    schedules.schedule_last_execute
                                   FROM
                                     schedules
                                   JOIN courses ON courses.course_id = schedules.course_id');
@@ -38,11 +39,12 @@ class Schedules_model extends CI_Model
                                     schedules.schedule_id,
                                     schedules.course_id,
                                     courses.course_name,
-                                    schedules.course_year,
+                                    courses.course_year,
                                     schedules.execute_day,
                                     schedules.execute_month,
                                     schedules.execute_time,
-                                    schedules.schedule_active
+                                    schedules.schedule_active,
+                                    schedules.schedule_last_execute
                                   FROM
                                     schedules
                                   JOIN courses ON courses.course_id = schedules.course_id
@@ -64,7 +66,6 @@ class Schedules_model extends CI_Model
         if ($id) {
             $data = $this->db->query('UPDATE schedules
                                   SET
-                                   course_year = "'.$data['course_year'].'",
                                    course_id = "'.$data['course_id'].'",
                                    execute_day = "'.$data['execute_day'].'",
                                    execute_month = "'.$data['execute_month'].'",
@@ -77,14 +78,12 @@ class Schedules_model extends CI_Model
             }
         } else {
             $data = $this->db->query('INSERT INTO schedules (
-                                    course_year,
                                     course_id,
                                     execute_day,
                                     execute_month,
                                     execute_time,
                                     schedule_active)
                                   VALUES (
-                                    "'.$data['course_year'].'",
                                     "'.$data['course_id'].'",
                                     "'.$data['execute_day'].'",
                                     "'.$data['execute_month'].'",

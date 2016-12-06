@@ -6,10 +6,27 @@ html {
 #wrap {}
 
 #wrapper {
-    h1 {
-        font-size: 36px;
+    a:active {
+        font-weight: normal;
+    }
+
+    h1,
+    h2,
+    h3 {
         margin-top: 5px;
         margin-bottom: 5px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 24px;
     }
 
     #loginForm {
@@ -63,5 +80,52 @@ html {
     .alert {
         margin-top: 10px;
         margin-bottom: 0;
+    }
+}
+
+#kpi {
+    .kpi-number {
+        border: solid 1px #000;
+        display: inline-block;
+        padding: 5px;
+    }
+
+    .table.table-kpi {
+        thead > tr {
+            background-color: #fde6d4;
+
+            th {
+                border: solid 1px #000;
+            }
+
+            th:first-child {
+                width: 80%;
+                text-align: center;
+            }
+
+            th:last-child {
+                width: 20%;
+                text-align: center;
+            }
+        }
+
+        tbody > tr {
+            td {
+                line-height: 14px;
+                border: solid 1px #000;
+            }
+        }
+
+        tbody > tr.level-1 {
+            background-color: #e8efd9;
+        }
+
+        tbody > tr.level-2 {
+            background-color: #5affff;
+        }
+
+        tbody > tr.level-3 {
+            background-color: #fff;
+        }
     }
 }

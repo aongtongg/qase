@@ -3,6 +3,12 @@
     <div id="message" class="alert alert-danger" onclick="HideMessage();">
         <?php echo validation_errors(); ?>
     </div>
+    <?php elseif (isset($message) && $message): ?>
+    <div class="col-md-12">
+        <div id="message" class="alert alert-danger" onclick="HideMessage();">
+            <?php echo $message; ?>
+        </div>
+    </div>
     <?php endif; ?>
     <div class="col-md-12">
         <h1>แก้ไขหลักสูตร</h1>
@@ -34,7 +40,7 @@
                 </select>
             </div>
             <div class="pull-right">
-                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'.$course_year.'/'.$course_id); ?>">ยกเลิก</a>
+                <a class="btn btn-default" href="<?php echo base_url('admin/teacher_has_courses/'.$course_id); ?>">ยกเลิก</a>
                 <button type="submit" name="delete" class="btn btn-danger">ลบ</button>
                 <button type="submit" name="save" class="btn btn-primary">แก้ไข</button>
             </div>

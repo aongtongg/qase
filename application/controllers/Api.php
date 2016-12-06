@@ -18,10 +18,10 @@ class Api extends CI_Controller
 
     public function getCourseYear()
     {
-        $this->load->model('Teacher_has_courses_model');
+        $this->load->model('Courses_model');
         $data = array('result' => 0, 'data' => null);
         if ($this->input->post('course_year')) {
-            $data = $this->Teacher_has_courses_model->getCourseYear($this->input->post('course_year'));
+            $data = $this->Courses_model->getCourseYear($this->input->post('course_year'));
             if ($data) {
                 $data = array('result' => 1, 'data' => $data);
             } else {
@@ -52,5 +52,96 @@ class Api extends CI_Controller
         }
 
         return $this->json($data);
+    }
+
+    public function execute()
+    {
+        $this->load->model('Schedules_model');
+        $this->load->model('Teacher_has_courses_model');
+        $this->load->model('Role_has_rules_model');
+        $this->load->model('Kpis_model');
+
+        $schedules = $this->Schedules_model->find_all();
+
+        $rules = $this->Role_has_rules_model->find_all();
+        $ruleList = array();
+        if ($rules) {
+            foreach ($rules as $value) {
+                $ruleList[$value->role_id][] = $value->rule_id;
+            }
+        }
+
+        echo '<pre>';
+        print_r($ruleList);
+        if ($schedules) {
+            $this->_check_rule(10, 1972, 6);
+            foreach ($schedules as $value_1) {
+                $teacher_has_courses = $this->Teacher_has_courses_model->find_course($value_1->course_id);
+                $checkRoles = array();
+                echo '<hr>';
+                foreach ($teacher_has_courses as $value_2) {
+                    print_r($value_2);
+                    $role_id = $value_2->role_id;
+                    if ($role_id == 6) {
+                        //$checkRoles[$role_id][] = '';
+                    }
+                }
+                //print_r($teacher_has_courses);
+                //break;
+            }
+            echo '<hr>';
+        }
+        print_r($schedules);
+        die();
+    }
+    private function _check_rule($teacher_id, $researcher_id, $role_id)
+    {
+        $rules = $this->Role_has_rules_model->find($role_id);
+        if ($rules) {
+            $ruleList = array();
+            foreach ($rules as $value) {
+                switch ($value->rule_id) {
+                    case 1:
+
+                    break;
+                    case 2:
+                        $checked = $this->Kpis_model->check_rule_2($researcher_id);
+                        if ($checked) {
+
+                        } else {
+
+                        }
+                    break;
+                    case 3:
+
+                    break;
+                    case 4:
+
+                    break;
+                    case 5:
+
+                    break;
+                    case 6:
+
+                    break;
+                    case 7:
+
+                    break;
+                    case 8:
+
+                    break;
+                    case 9:
+
+                    break;
+                    case 10:
+
+                    break;
+                    default:
+                    break;
+                }
+            }
+        }
+
+        return false;
     }
 }

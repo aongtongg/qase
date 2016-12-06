@@ -60,7 +60,4 @@
             event.preventDefault();
         });
     });
-    var HideMessage = function() {
-        $('#message').fadeOut();
-    }
 </script>

@@ -103,6 +103,13 @@ class Admin extends CI_Controller
             }
         }
 
+        // Course Year lists
+        $courseYearLists = array();
+        for ($i = date('Y') + 3; $i > 2011; --$i) {
+            $courseYearLists[$i] = $i + 543;
+        }
+        $view['courseYearLists'] = $courseYearLists;
+
         $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
         $this->breadcrumbs->push('เพิ่มหลักสูตร', '/admin/course_add/');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
@@ -124,6 +131,13 @@ class Admin extends CI_Controller
         if ($data) {
             $view['data'] = $data;
 
+            // Course Year lists
+            $courseYearLists = array();
+            for ($i = date('Y') + 3; $i > 2011; --$i) {
+                $courseYearLists[$i] = $i + 543;
+            }
+            $view['courseYearLists'] = $courseYearLists;
+
             $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
             $this->breadcrumbs->push('แก้ไขหลักสูตร', '/admin/course_add/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
@@ -140,6 +154,7 @@ class Admin extends CI_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('course_name', 'course_name', 'trim|required');
+        $this->form_validation->set_rules('course_code', 'course_code', 'trim|required');
         $this->form_validation->set_rules('course_start_date', 'course_start_date', 'trim|required');
         $this->form_validation->set_rules('course_estimate_date', 'course_estimate_date', 'trim|required');
 
@@ -168,26 +183,33 @@ class Admin extends CI_Controller
     /* Teacher has courses page */
     public function teacher_has_courses()
     {
-        $course_year = $this->uri->segment(3);
-        $course_id = $this->uri->segment(4);
+        $course_id = $this->uri->segment(3);
 
         $this->load->model('Teacher_has_courses_model');
 
-        if ($course_year && $course_id) {
-            $data = $this->Teacher_has_courses_model->find_course_year($course_year, $course_id);
+        if ($course_id) {
+            $data = $this->Teacher_has_courses_model->find_course($course_id);
             if ($data) {
                 $view['course_year'] = $data;
             } else {
                 redirect('/admin/teacher_has_courses', 'refresh');
             }
         } else {
-            $data = $this->Teacher_has_courses_model->find_all_course_year();
+            $data = $this->Teacher_has_courses_model->find_all_course();
             $view['data'] = $data;
+
+            $this->load->model('Sars_model');
+            $sars = $this->Sars_model->find_all_course();
+            $sarLists = array();
+            foreach ($sars as $value) {
+                $sarLists[$value->course_id] = true;
+            }
+            $view['sarLists'] = $sarLists;
         }
 
-        $this->breadcrumbs->push('ภาพรวมหลักสูตร และบทบาท', '/admin/teacher_has_courses');
-        if ($course_year && $course_id) {
-            $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_year.'/'.$course_id);
+        $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+        if ($course_id) {
+            $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_id);
         }
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/teacher_has_courses', $view);
@@ -197,10 +219,10 @@ class Admin extends CI_Controller
     /* Add teacher has courses page */
     public function teacher_has_course_add()
     {
-        $course_year = $this->uri->segment(3);
-        $course_id = $this->uri->segment(4);
+        $course_id = $this->uri->segment(3);
 
         $this->load->model('Teacher_has_courses_model');
+        $this->load->model('Courses_model');
 
         // Teacher lists
         $this->load->model('Teachers_model');
@@ -222,8 +244,8 @@ class Admin extends CI_Controller
             }
         }
 
-        if ($course_year && $course_id) {
-            $data = $this->Teacher_has_courses_model->find_course_year($course_year, $course_id);
+        if ($course_id) {
+            $data = $this->Teacher_has_courses_model->find_course($course_id);
             if (!$data) {
                 redirect('/admin/teacher_has_courses', 'refresh');
             }
@@ -234,10 +256,14 @@ class Admin extends CI_Controller
                 $this->form_validation->set_rules('teacher_id', 'teacher_id', 'trim|required');
                 $this->form_validation->set_rules('role_id', 'role_id', 'trim|required');
                 if ($this->form_validation->run()) {
-                    $data = $this->Teacher_has_courses_model->save_course_year($course_year, $course_id, $_POST);
-
-                    if ($data) {
-                        redirect('/admin/teacher_has_courses/'.$course_year.'/'.$course_id, 'refresh');
+                    $check_before_save = $this->Teacher_has_courses_model->check_before_save($course_id, $_POST['role_id'], $_POST['teacher_id']);
+                    if (!$check_before_save) {
+                        $data = $this->Teacher_has_courses_model->save_course($course_id, $_POST);
+                        if ($data) {
+                            redirect('/admin/teacher_has_courses/'.$course_id, 'refresh');
+                        }
+                    } else {
+                        $view['message'] = 'มีอาจารย์ และบทบาทนี้ในหลักสูตรแล้ว';
                     }
                 }
             }
@@ -250,39 +276,29 @@ class Admin extends CI_Controller
                 $this->form_validation->set_rules('teacher_id', 'teacher_id', 'trim|required');
                 $this->form_validation->set_rules('role_id', 'role_id', 'trim|required');
                 if ($this->form_validation->run()) {
-                    $data = $this->Teacher_has_courses_model->save_course_year($_POST['course_year'], $_POST['course_id'], $_POST);
+                    $data = $this->Teacher_has_courses_model->save_course($_POST['course_id'], $_POST);
 
                     if ($data) {
-                        redirect('/admin/teacher_has_courses/'.$course_year.'/'.$course_id, 'refresh');
+                        redirect('/admin/teacher_has_courses/'.$course_id, 'refresh');
                     }
                 }
             }
+
             // Course Year lists
             $courseYearLists = array();
-            for ($i = date('Y') + 3; $i > 2011; --$i) {
-                $courseYearLists[$i] = $i + 543;
+            $listYear = $this->Courses_model->getYear();
+            foreach ($listYear as $value) {
+                $courseYearLists[$value->course_year] = $value->course_year + 543;
             }
             $view['courseYearLists'] = $courseYearLists;
-
-            // Course lists
-            $this->load->model('Courses_model');
-            $courses = $this->Courses_model->find_all();
-            $courseLists = array();
-            if ($courses) {
-                foreach ($courses as $value) {
-                    $courseLists[$value->course_id] = $value->course_name;
-                }
-            }
-            $view['courseLists'] = $courseLists;
         }
-        $view['course_year'] = $course_year;
         $view['course_id'] = $course_id;
         $view['teacherLists'] = $teacherLists;
         $view['roleLists'] = $roleLists;
 
-        $this->breadcrumbs->push('ภาพรวมหลักสูตร และบทบาท', '/admin/teacher_has_courses');
-        if ($course_year && $course_id) {
-            $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_year.'/'.$course_id);
+        $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+        if ($course_id) {
+            $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_id);
         }
         $this->breadcrumbs->push('เพิ่มหลักสูตร และบทบาท', '/admin/teacher_has_course_add');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
@@ -293,34 +309,37 @@ class Admin extends CI_Controller
     /* Edit teacher has courses page */
     public function teacher_has_course_edit()
     {
-        $course_year = $this->uri->segment(3);
-        $course_id = $this->uri->segment(4);
-        $role_id = $this->uri->segment(5);
-        $teacher_id = $this->uri->segment(6);
+        $course_id = $this->uri->segment(3);
+        $role_id = $this->uri->segment(4);
+        $teacher_id = $this->uri->segment(5);
 
-        if ($course_year && $course_id && $role_id && $teacher_id) {
+        if ($course_id && $role_id && $teacher_id) {
             $this->load->model('Teacher_has_courses_model');
-            $data = $this->Teacher_has_courses_model->find_course_year($course_year, $course_id);
+            $data = $this->Teacher_has_courses_model->find_course($course_id);
             if (!$data) {
                 redirect('/admin/teacher_has_courses', 'refresh');
             }
 
             if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
                 if (isset($_POST['delete'])) {
-                    $data = $this->Teacher_has_courses_model->delete_course_year($course_year, $course_id, $role_id, $teacher_id);
+                    $data = $this->Teacher_has_courses_model->delete_course($course_id, $role_id, $teacher_id);
                 } else {
                     $this->load->helper('form');
                     $this->load->library('form_validation');
                     $this->form_validation->set_rules('teacher_id', 'teacher_id', 'trim|required');
                     $this->form_validation->set_rules('role_id', 'role_id', 'trim|required');
                     if ($this->form_validation->run()) {
-                        $old_data = array('role_id' => $role_id, 'teacher_id' => $teacher_id);
-                        $data = $this->Teacher_has_courses_model->save_course_year($course_year, $course_id, $_POST, $old_data);
+                        $check_before_save = $this->Teacher_has_courses_model->check_before_save($course_id, $_POST['role_id'], $_POST['teacher_id']);
+                        if (!$check_before_save) {
+                            $old_data = array('role_id' => $role_id, 'teacher_id' => $teacher_id);
+                            $data = $this->Teacher_has_courses_model->save_course($course_id, $_POST, $old_data);
+                            if ($data) {
+                                redirect('/admin/teacher_has_courses/'.$course_id, 'refresh');
+                            }
+                        } else {
+                            $view['message'] = 'มีอาจารย์ และบทบาทนี้ในหลักสูตรแล้ว';
+                        }
                     }
-                }
-
-                if ($data) {
-                    redirect('/admin/teacher_has_courses/'.$course_year.'/'.$course_id, 'refresh');
                 }
             }
 
@@ -344,16 +363,15 @@ class Admin extends CI_Controller
                 }
             }
 
-            $view['course_year'] = $course_year;
             $view['course_id'] = $course_id;
             $view['role_id'] = $role_id;
             $view['teacher_id'] = $teacher_id;
             $view['teacherLists'] = $teacherLists;
             $view['roleLists'] = $roleLists;
 
-            $this->breadcrumbs->push('ภาพรวมหลักสูตร และบทบาท', '/admin/teacher_has_courses');
-            if ($course_year && $course_id) {
-                $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_year.'/'.$course_id);
+            $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+            if ($course_id) {
+                $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_id);
             }
             $this->breadcrumbs->push('แก้ไขหลักสูตร และบทบาท', '/admin/teacher_has_course_edit');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
@@ -428,7 +446,7 @@ class Admin extends CI_Controller
         $data = $this->Schedules_model->find_all();
         $view['data'] = $data;
         $view['controller'] = $this;
-        
+
         $this->breadcrumbs->push('การตรวจสอบ', '/admin/schedules');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/schedules', $view);
@@ -439,7 +457,7 @@ class Admin extends CI_Controller
     public function schedule_add()
     {
         $this->load->model('Schedules_model');
-        $this->load->model('Teacher_has_courses_model');
+        $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
             if (!$this->input->post('execute_day')) {
                 for ($i = 1;$i <= 7;++$i) {
@@ -457,7 +475,7 @@ class Admin extends CI_Controller
         }
         // Course Year lists
         $courseYearLists = array();
-        $listYear = $this->Teacher_has_courses_model->getYear();
+        $listYear = $this->Courses_model->getYear();
         foreach ($listYear as $value) {
             $courseYearLists[$value->course_year] = $value->course_year + 543;
         }
@@ -499,7 +517,7 @@ class Admin extends CI_Controller
     public function schedule_edit()
     {
         $this->load->model('Schedules_model');
-        $this->load->model('Teacher_has_courses_model');
+        $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
             if (!$this->input->post('execute_day')) {
                 for ($i = 1;$i <= 7;++$i) {
@@ -521,7 +539,7 @@ class Admin extends CI_Controller
 
             // Course Year lists
             $courseYearLists = array();
-            $listYear = $this->Teacher_has_courses_model->getYear();
+            $listYear = $this->Courses_model->getYear();
             foreach ($listYear as $value) {
                 $courseYearLists[$value->course_year] = $value->course_year + 543;
             }
@@ -529,7 +547,7 @@ class Admin extends CI_Controller
 
             // Course lists
             $courseLists = array();
-            $listYear = $this->Teacher_has_courses_model->getCourseYear($data->course_year);
+            $listYear = $this->Courses_model->getCourseYear($data->course_year);
             foreach ($listYear as $value) {
                 $courseLists[$value->course_id] = $value->course_name;
             }
@@ -619,26 +637,50 @@ class Admin extends CI_Controller
         redirect('/admin/schedules', 'refresh');
     }
 
-    /* Date Thai */
-    public function _DateThai($date, $short = true)
+    /* Sars page */
+    public function sars()
     {
-        $arr = explode('-', $date);
-        $year = $arr[0];
+        $this->load->model('Sars_model');
+        $data = $this->Sars_model->get_sar_course($this->uri->segment(3), true);
+        if ($data) {
+            $view['data'] = $data;
+            $view['controller'] = $this;
+
+            $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+            $this->breadcrumbs->push('ผลประเมินคุณภาพ', '/admin/sars');
+            $view['breadcrumbs'] = $this->breadcrumbs->show();
+            $this->load->view('admin/sars', $view);
+            $this->output->set_common_meta('QASE', '', '');
+        } else {
+            redirect('/admin/teacher_has_courses', 'refresh');
+        }
+    }
+
+    /* Date Thai */
+    public function _DateThai($date, $short = false)
+    {
+        $arrTime = explode(' ', $date);
+        $arr = explode('-', $arrTime[0]);
+        $year = $arr[0] + 543;
         $month = intval($arr[1]);
         $day = intval($arr[2]);
         if ($short) {
-            $monthList = array('1' => 'ม.ค.', '2' => 'ก.พ.', '3' => 'มี.ค.', '4' => 'เม.ษ.', '5' => 'พ.ค.', '6' => 'มิ.ย.',
-                              '7' => 'ก.ค.', '8' => 'ส.ค.', '9' => 'ก.ย.', '10' => 'ต.ค.', '11' => 'พ.ย.', '12' => 'ธ.ค.', );
-        } else {
             $monthList = array('1' => 'มกราคม', '2' => 'กุมภาพันธ์', '3' => 'มีนาคม', '4' => 'เมษายน', '5' => 'พฤษภาคม', '6' => 'มิถุนายน',
                               '7' => 'กรกฎาคม', '8' => 'สิงหาคม', '9' => 'กันยายน', '10' => 'ตุลาคม', '11' => 'พฤศจิกายน', '12' => 'ธันวาคม', );
+        } else {
+            $monthList = array('1' => 'ม.ค.', '2' => 'ก.พ.', '3' => 'มี.ค.', '4' => 'เม.ษ.', '5' => 'พ.ค.', '6' => 'มิ.ย.',
+                              '7' => 'ก.ค.', '8' => 'ส.ค.', '9' => 'ก.ย.', '10' => 'ต.ค.', '11' => 'พ.ย.', '12' => 'ธ.ค.', );
         }
         $month = isset($monthList[$month]) ? $monthList[$month] : '';
         if ($month) {
-            return $day.' '.$month.' '.$year;
-        } else {
-            return $date;
+            $date = $day.' '.$month.' '.$year;
+            if (isset($arrTime[1])) {
+                $time = explode(':', $arrTime[1]);
+                $date .= ' '.$time[0].':'.$time[1];
+            }
         }
+
+        return $date;
     }
 
     /* Generate Days */

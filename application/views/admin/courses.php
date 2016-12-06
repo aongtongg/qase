@@ -5,11 +5,13 @@
         </h1>
     </div>
     <div class="col-md-12">
-        <table id="routeTable" class="table">
+        <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
                     <th>ชื่อหลักสูตร</th>
+                    <th>รหัสหลักสูตร</th>
+                    <th>ปีการศึกษา</th>
                     <th>วันที่เริ่มหลักสูตร</th>
                     <th>วันกำหนดประเมินหลักสูตร</th>
                     <th></th>
@@ -25,6 +27,8 @@
                 <tr>
                     <td><?php echo $i; ?></td>
                     <td><?php echo $value->course_name; ?></td>
+                    <td><?php echo $value->course_code; ?></td>
+                    <td><?php echo $value->course_year + 543; ?></td>
                     <td><?php echo $controller->_DateThai($value->course_start_date); ?></td>
                     <td><?php echo $controller->_DateThai($value->course_estimate_date); ?></td>
                     <td>

@@ -16,7 +16,9 @@ class Teachers_model extends CI_Model
                                     members.members_fname AS first_name,
                                     members.members_sname AS last_name
                                   FROM
-                                    seminar.members');
+                                    seminar.members
+                                  WHERE
+                                    members.members_type != "0"');
 
         if ($data->result()) {
             return $data->result();
@@ -35,7 +37,8 @@ class Teachers_model extends CI_Model
                                   FROM
                                     seminar.members
                                   WHERE
-                                    members.tid = "'.$id.'"');
+                                    members.tid = "'.$id.'" AND
+                                    members.members_type != "0"');
 
         if ($data->result()) {
             return $data->first_row();
