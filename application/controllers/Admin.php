@@ -276,10 +276,14 @@ class Admin extends CI_Controller
                 $this->form_validation->set_rules('teacher_id', 'teacher_id', 'trim|required');
                 $this->form_validation->set_rules('role_id', 'role_id', 'trim|required');
                 if ($this->form_validation->run()) {
-                    $data = $this->Teacher_has_courses_model->save_course($_POST['course_id'], $_POST);
-
-                    if ($data) {
-                        redirect('/admin/teacher_has_courses/'.$course_id, 'refresh');
+                    $check_before_save = $this->Teacher_has_courses_model->check_before_save($_POST['course_id'], $_POST['role_id'], $_POST['teacher_id']);
+                    if (!$check_before_save) {
+                        $data = $this->Teacher_has_courses_model->save_course($_POST['course_id'], $_POST);
+                        if ($data) {
+                            redirect('/admin/teacher_has_courses/'.$course_id, 'refresh');
+                        }
+                    } else {
+                        $view['message'] = 'มีอาจารย์ และบทบาทนี้ในหลักสูตรแล้ว';
                     }
                 }
             }
