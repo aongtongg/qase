@@ -22,7 +22,7 @@
                     <td><?php echo $i; ?></td>
                     <td><?php echo $value->role_name; ?></td>
                     <td>
-                      <a class="btn btn-primary" href="<?php echo base_url('admin/role_edit/'.$value->role_id); ?>">แก้ไขกฎ</a>
+                      <a class="btn btn-primary" href="<?php echo base_url('admin/role_edit/'.$value->role_id); ?>">แก้ไขเกณฑ์</a>
                     </td>
                 </tr>
                 <?php

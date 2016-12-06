@@ -73,7 +73,7 @@ $allPass = true;
                             $allPass = false;
                         }
                         ?>
-                        <td class="text-center <?php echo $pass ? 'color-pass' : 'color-fail'; ?>">
+                        <td class="text-center">
                             <a href="#" data-toggle="modal" data-target="#kpi<?php echo $key; ?>"><?php echo $status; ?></a>
                             <!-- Modal -->
                             <div id="kpi<?php echo $key; ?>" class="modal fade" role="dialog">

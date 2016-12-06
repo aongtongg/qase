@@ -85,10 +85,12 @@ html {
 #kpi .table.table-kpi tbody > tr.kpi-fail {
   background-color: #f2dede;
   color: #a94442; }
-#kpi .table.table-kpi-sum thead > tr th {
-  border: solid 1px #000;
-  text-align: center;
-  width: 50%; }
+#kpi .table.table-kpi-sum thead > tr {
+  background-color: #f5964f; }
+  #kpi .table.table-kpi-sum thead > tr th {
+    border: solid 1px #000;
+    text-align: center;
+    width: 50%; }
 #kpi .table.table-kpi-sum tbody > tr {
   background-color: #fff; }
   #kpi .table.table-kpi-sum tbody > tr td {

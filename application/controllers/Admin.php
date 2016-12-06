@@ -412,13 +412,16 @@ class Admin extends CI_Controller
         $this->load->model('Roles_model');
         $this->load->model('Role_has_rules_model');
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['rules']) && is_array($_POST['rules'])) {
                 $delete = $this->Role_has_rules_model->delete($role_id);
                 foreach ($_POST['rules'] as $value) {
                     $data = $this->Role_has_rules_model->save($value, $role_id);
                 }
                 redirect('/admin/roles', 'refresh');
+            } else {
+
+                $view['message'] = 'กรุณาเลือกเกณฑ์อย่างน้อย 1 เกณฑ์';
             }
         }
 
@@ -438,7 +441,7 @@ class Admin extends CI_Controller
             $view['ruleSelected'] = $ruleSelected;
 
             $this->breadcrumbs->push('บทบาท', '/admin/roles');
-            $this->breadcrumbs->push('แก้ไขกฎ', '/admin/role_edit/');
+            $this->breadcrumbs->push('แก้ไขเกณฑ์', '/admin/role_edit/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/role_edit', $view);
             $this->output->set_common_meta('QASE', '', '');
