@@ -201,8 +201,10 @@ class Admin extends CI_Controller
             $this->load->model('Sars_model');
             $sars = $this->Sars_model->find_all_course();
             $sarLists = array();
-            foreach ($sars as $value) {
-                $sarLists[$value->course_id] = true;
+            if ($sars) {
+                foreach ($sars as $value) {
+                    $sarLists[$value->course_id] = true;
+                }
             }
             $view['sarLists'] = $sarLists;
         }

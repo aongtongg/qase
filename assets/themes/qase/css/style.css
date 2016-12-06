@@ -65,6 +65,14 @@ html {
 #kpi .table.table-kpi tbody > tr td {
   line-height: 14px;
   border: solid 1px #000; }
+#kpi .table.table-kpi tbody > tr td.color-pass {
+  background-color: #dff0d8; }
+  #kpi .table.table-kpi tbody > tr td.color-pass a {
+    color: #3c763d; }
+#kpi .table.table-kpi tbody > tr td.color-fail {
+  background-color: #f2dede; }
+  #kpi .table.table-kpi tbody > tr td.color-fail a {
+    color: #a94442; }
 #kpi .table.table-kpi tbody > tr.level-1 {
   background-color: #e8efd9; }
 #kpi .table.table-kpi tbody > tr.level-2 {
@@ -77,5 +85,16 @@ html {
 #kpi .table.table-kpi tbody > tr.kpi-fail {
   background-color: #f2dede;
   color: #a94442; }
+#kpi .table.table-kpi-sum thead > tr th {
+  border: solid 1px #000;
+  text-align: center;
+  width: 50%; }
+#kpi .table.table-kpi-sum tbody > tr {
+  background-color: #fff; }
+  #kpi .table.table-kpi-sum tbody > tr td {
+    line-height: 14px;
+    border: solid 1px #000; }
+  #kpi .table.table-kpi-sum tbody > tr td.col-25 {
+    width: 25%; }
 
 /*# sourceMappingURL=style.css.map */

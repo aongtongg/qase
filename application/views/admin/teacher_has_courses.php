@@ -52,7 +52,7 @@
                     <th>#</th>
                     <th>ปีการศึกษา</th>
                     <th>หลักสูตร</th>
-                    <th>จำนวนอาจารย์</th>
+                    <th class="text-center">จำนวนอาจารย์ทุกบทบาท</th>
                     <th></th>
                 </tr>
             </thead>
@@ -67,7 +67,7 @@
                     <td><?php echo $i; ?></td>
                     <td><?php echo $value->course_year + 543; ?></td>
                     <td><?php echo $value->course_name; ?></td>
-                    <td><?php echo $value->teacher_no; ?></td>
+                    <td class="text-center"><?php echo $value->teacher_no; ?></td>
                     <td>
                         <a class="btn btn-primary" href="<?php echo base_url('admin/teacher_has_courses/'.$value->course_id); ?>">แก้ไข</a>
                         <?php if (isset($sarLists[$value->course_id])): ?>
