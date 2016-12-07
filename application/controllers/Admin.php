@@ -420,7 +420,6 @@ class Admin extends CI_Controller
                 }
                 redirect('/admin/roles', 'refresh');
             } else {
-
                 $view['message'] = 'กรุณาเลือกเกณฑ์อย่างน้อย 1 เกณฑ์';
             }
         }
@@ -472,14 +471,10 @@ class Admin extends CI_Controller
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
             if (!$this->input->post('execute_day')) {
-                for ($i = 1;$i <= 7;++$i) {
-                    $_POST['execute_day'][] = $i;
-                }
+                $view['message'] = 'กรุณาเลือกวันที่ต้องการตรวจสอบ';
             }
             if (!$this->input->post('execute_month')) {
-                for ($i = 1;$i <= 12;++$i) {
-                    $_POST['execute_month'][] = $i;
-                }
+                $view['message'] = 'กรุณาเลือกเดือนที่ต้องการตรวจสอบ';
             }
             if ($this->input->post('course_year') && $this->input->post('course_id') && $this->input->post('execute_day') && $this->input->post('execute_month') && $this->input->post('execute_time')) {
                 $this->schedule_save();
@@ -532,14 +527,10 @@ class Admin extends CI_Controller
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
             if (!$this->input->post('execute_day')) {
-                for ($i = 1;$i <= 7;++$i) {
-                    $_POST['execute_day'][] = $i;
-                }
+                $view['message'] = 'กรุณาเลือกวันที่ต้องการตรวจสอบ';
             }
             if (!$this->input->post('execute_month')) {
-                for ($i = 1;$i <= 12;++$i) {
-                    $_POST['execute_month'][] = $i;
-                }
+                $view['message'] = 'กรุณาเลือกเดือนที่ต้องการตรวจสอบ';
             }
             if ($this->input->post('course_year') && $this->input->post('course_id') && $this->input->post('execute_day') && $this->input->post('execute_month') && $this->input->post('execute_time')) {
                 $this->schedule_save();

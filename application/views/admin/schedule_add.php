@@ -3,6 +3,12 @@
     <div id="message" class="alert alert-danger" onclick="HideMessage();">
         <?php echo validation_errors(); ?>
     </div>
+    <?php elseif (isset($message) && $message): ?>
+    <div class="col-md-12">
+        <div id="message" class="alert alert-danger" onclick="HideMessage();">
+            <?php echo $message; ?>
+        </div>
+    </div>
     <?php endif; ?>
     <div class="col-md-12">
         <h1>เพิ่มการตรวจสอบ</h1>
