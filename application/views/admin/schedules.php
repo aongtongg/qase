@@ -2,6 +2,7 @@
     <div class="col-xs-12">
         <h1>การตรวจสอบ
             <a class="btn btn-primary" href="<?php echo base_url('admin/schedule_add/'); ?>">เพิ่ม</a>
+            <button id="execute_schedules" class="btn btn-primary" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Executing..">Execute</button>
         </h1>
     </div>
     <div class="col-md-12">
@@ -47,9 +48,33 @@
     </div>
 </div>
 <script>
-    $('.btn-danger').on('click', function(e) {
-        if(!confirm('คุณต้องการที่จะลบการตรวจสอบนี้?')){
-             event.preventDefault();
-         }
+    $(document).ready(function() {
+        $("#execute_schedules").click(function(event) {
+              $('#execute_schedules').button('loading');
+              var param = {}
+              var options = {
+                  dataType: 'json',
+                  contentType: 'application/x-www-form-urlencoded',
+                  type: 'POST',
+                  url: BASE_URL + 'api/execute',
+                  data: param
+              }
+              $.ajax(options).done(function(res) {
+                  //console.log('result submit', res);
+                  setTimeout(function () {
+                      $('#execute_schedules').button('reset');
+                  }, 2000);
+              }).error(function(err) {
+                  //console.log('error ', err);
+                  setTimeout(function () {
+                      $('#execute_schedules').button('reset');
+                  }, 2000);
+              });
+        });
+        $('.btn-danger').on('click', function(e) {
+            if(!confirm('คุณต้องการที่จะลบการตรวจสอบนี้?')){
+                 event.preventDefault();
+             }
+        });
     });
 </script>
