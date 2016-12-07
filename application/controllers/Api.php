@@ -73,21 +73,29 @@ class Api extends CI_Controller
             }
         }
 
-        //echo '<pre>';
         if ($schedules) {
             foreach ($schedules as $value_1) {
-                // if
-                //print_r($value_1);
-                $course_id = $value_1->course_id;
-                $sar_id = $this->Sars_model->save($course_id);
-                //echo '<hr>';
-                $teacher_has_courses = $this->Teacher_has_courses_model->find_course($course_id);
-                //print_r($teacher_has_courses);
-                $checkRoles = array();
-                //echo '<hr>';
-                foreach ($teacher_has_courses as $value_2) {
-                    $this->_check_rule($course_id, $sar_id, $value_2->teacher_id, $value_2->researcher_id, $value_2->role_id);
-                    //print_r($value_2);
+                $now = date('Y-m-d H:i:s');
+                $execute_time = date('Y-m-d').' '.$value_1->execute_time;
+                $day = date('w', strtotime($now));
+                $day = $day + 1;
+                $month = date('n', strtotime($now));
+                $isDay = strpos($value_1->execute_day, strval($day));
+                $isMonth = strpos($value_1->execute_month, strval($month));
+
+                if ($isDay !== false && $isMonth !== false) {
+                    if ($execute_time  < $now && $execute_time > $value_1->schedule_last_execute) {
+                        $this->Schedules_model->update_last_execute($value_1->schedule_id);
+                        $course_id = $value_1->course_id;
+                        $sar_id = $this->Sars_model->save($course_id);
+                        $teacher_has_courses = $this->Teacher_has_courses_model->find_course($course_id);
+                        $checkRoles = array();
+                        if ($teacher_has_courses) {
+                            foreach ($teacher_has_courses as $value_2) {
+                                $this->_check_rule($course_id, $sar_id, $value_2->teacher_id, $value_2->researcher_id, $value_2->role_id);
+                            }
+                        }
+                    }
                 }
             }
         }

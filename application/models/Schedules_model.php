@@ -23,7 +23,9 @@ class Schedules_model extends CI_Model
                                     schedules.schedule_last_execute
                                   FROM
                                     schedules
-                                  JOIN courses ON courses.course_id = schedules.course_id');
+                                  JOIN courses ON courses.course_id = schedules.course_id
+                                  WHERE
+                                    schedules.schedule_active = "1"');
 
         if ($data->result()) {
             return $data->result();
@@ -49,7 +51,8 @@ class Schedules_model extends CI_Model
                                     schedules
                                   JOIN courses ON courses.course_id = schedules.course_id
                                   WHERE
-                                    schedules.schedule_id = "'.$id.'"');
+                                    schedules.schedule_id = "'.$id.'" AND
+                                    schedules.schedule_active = "1"');
 
         if ($data->result()) {
             return $data->first_row();
@@ -112,6 +115,22 @@ class Schedules_model extends CI_Model
                     $result = true;
                 }
             }
+        }
+
+        return $result;
+    }
+
+    /* Update last execute */
+    public function update_last_execute($schedule_id)
+    {
+        $result = false;
+        $data = $this->db->query('UPDATE schedules
+                                  SET
+                                   schedule_last_execute = "'.date('Y-m-d H:i:s').'"
+                                  WHERE
+                                    schedule_id = "'.$schedule_id.'"');
+        if ($data) {
+            $result = $schedule_id;
         }
 
         return $result;
