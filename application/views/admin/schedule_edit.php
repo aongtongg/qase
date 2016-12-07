@@ -76,7 +76,7 @@
                         $time = $i.':00';
                     }
                     ?>
-                    <option value="<?php echo $time; ?>" <?php echo isset($data->execute_time) && $data->execute_time == $time.':00' ? 'select' : '';  ?>><?php echo $time; ?></option>
+                    <option value="<?php echo $time; ?>" <?php echo isset($data->execute_time) && $data->execute_time == $time.':00' ? 'selected' : '';  ?>><?php echo $time; ?></option>
                     <?php endfor; ?>
                 </select>
             </div>
