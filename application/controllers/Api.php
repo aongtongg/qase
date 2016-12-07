@@ -95,6 +95,9 @@ class Api extends CI_Controller
                                 $this->_check_rule($course_id, $sar_id, $value_2->teacher_id, $value_2->researcher_id, $value_2->role_id);
                             }
                         }
+                        if ($value_1->email) {
+                            $this->_send_email($sar_id, $value_1->email);
+                        }
                     }
                 }
             }
@@ -180,5 +183,9 @@ class Api extends CI_Controller
         }
 
         return $pass;
+    }
+
+    private function _send_email()
+    {
     }
 }

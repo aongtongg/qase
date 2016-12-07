@@ -93,6 +93,10 @@
                     <option value="0">ไม่ใช้งาน</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="course_code">ส่งผลการตรวจสอบไปยังอีเมล์</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="อีเมล์" value="<?php echo isset($_POST['email']) ? $_POST['email'] : $data->email; ?>">
+            </div>
             <div class="pull-right">
                 <a class="btn btn-default" href="<?php echo base_url('admin/schedules'); ?>">ยกเลิก</a>
                 <button type="submit" class="btn btn-primary">แก้ไข</button>

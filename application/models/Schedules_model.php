@@ -19,6 +19,7 @@ class Schedules_model extends CI_Model
                                     schedules.execute_day,
                                     schedules.execute_month,
                                     schedules.execute_time,
+                                    schedules.email,
                                     schedules.schedule_active,
                                     schedules.schedule_last_execute
                                   FROM
@@ -45,6 +46,7 @@ class Schedules_model extends CI_Model
                                     schedules.execute_day,
                                     schedules.execute_month,
                                     schedules.execute_time,
+                                    schedules.email,
                                     schedules.schedule_active,
                                     schedules.schedule_last_execute
                                   FROM
@@ -73,6 +75,7 @@ class Schedules_model extends CI_Model
                                    execute_day = "'.$data['execute_day'].'",
                                    execute_month = "'.$data['execute_month'].'",
                                    execute_time = "'.$data['execute_time'].'",
+                                   email = "'.$data['email'].'",
                                    schedule_active = "'.$data['schedule_active'].'"
                                   WHERE
                                     schedule_id = "'.$id.'"');
@@ -85,12 +88,14 @@ class Schedules_model extends CI_Model
                                     execute_day,
                                     execute_month,
                                     execute_time,
+                                    email,
                                     schedule_active)
                                   VALUES (
                                     "'.$data['course_id'].'",
                                     "'.$data['execute_day'].'",
                                     "'.$data['execute_month'].'",
                                     "'.$data['execute_time'].'",
+                                    "'.$data['email'].'",
                                     "'.$data['schedule_active'].'"
                                   )');
             if ($data) {

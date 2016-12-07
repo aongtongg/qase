@@ -14,8 +14,9 @@
                     <th>หลักสูตร</th>
                     <th>ตรวจวัน</th>
                     <th>ตรวจเดือน</th>
-                    <th>เวลา</th>
-                    <th>สถานะ</th>
+                    <th class="text-center">เวลา</th>
+                    <th class="text-center">สถานะ</th>
+                    <th class="text-center">อีเมล์</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,8 +33,9 @@
                     <td><?php echo $value->course_name; ?></td>
                     <td><?php echo $controller->_GenDays($value->execute_day); ?></td>
                     <td><?php echo $controller->_GenMonth($value->execute_month); ?></td>
-                    <td><?php echo str_replace('00:00', '00', $value->execute_time); ?></td>
-                    <td><?php echo $value->schedule_active ? 'ใช้งาน' : 'ไม่ใช้งาน'; ?></td>
+                    <td class="text-center"><?php echo str_replace('00:00', '00', $value->execute_time); ?></td>
+                    <td class="text-center"><?php echo $value->schedule_active ? 'ใช้งาน' : 'ไม่ใช้งาน'; ?></td>
+                    <td class="text-center"><?php echo $value->email ? '/' : ''; ?></td>
                     <td>
                       <a class="btn btn-primary" href="<?php echo base_url('admin/schedule_edit/'.$value->schedule_id); ?>">แก้ไข</a>
                       <a class="btn btn-danger" href="<?php echo base_url('admin/schedule_delete/'.$value->schedule_id); ?>">ลบ</a>

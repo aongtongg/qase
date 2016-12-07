@@ -623,6 +623,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('execute_day', 'execute_day', 'trim|required');
         $this->form_validation->set_rules('execute_month', 'execute_month', 'trim|required');
         $this->form_validation->set_rules('execute_time', 'execute_time', 'trim|required');
+        $this->form_validation->set_rules('email', 'email', 'trim');
 
         if ($this->form_validation->run()) {
             if ($type = 'update') {
