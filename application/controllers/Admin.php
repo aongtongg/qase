@@ -98,8 +98,11 @@ class Admin extends CI_Controller
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
             if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
-                //if ($_POST['course_name'] != '' && $_POST['course_start_date'] != '' && $_POST['course_estimate_date'] != '') {
-                $this->course_save();
+                if ($this->input->post('course_start_date') < $this->input->post('course_estimate_date')) {
+                    $this->course_save();
+                } else {
+                    $view['message'] = 'ไม่อนุญาตให้วันที่ประเมินก่อนวันที่เริ่มหลักสูตร';
+                }
             }
         }
 
@@ -123,8 +126,11 @@ class Admin extends CI_Controller
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
             if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
-                //if ($_POST['course_name'] != '' && $_POST['course_start_date'] != '' && $_POST['course_estimate_date'] != '') {
-                $this->course_save('update');
+                if ($this->input->post('course_start_date') < $this->input->post('course_estimate_date')) {
+                    $this->course_save('update');
+                } else {
+                    $view['message'] = 'ไม่อนุญาตให้วันที่ประเมินก่อนวันที่เริ่มหลักสูตร';
+                }
             }
         }
         $data = $this->Courses_model->find($this->uri->segment(3));
