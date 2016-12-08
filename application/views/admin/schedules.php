@@ -65,12 +65,12 @@
                   //console.log('result submit', res);
                   setTimeout(function () {
                       $('#execute_schedules').button('reset');
-                  }, 2000);
+                  }, 1000);
               }).error(function(err) {
                   //console.log('error ', err);
                   setTimeout(function () {
                       $('#execute_schedules').button('reset');
-                  }, 2000);
+                  }, 1000);
               });
         });
         $('.btn-danger').on('click', function(e) {

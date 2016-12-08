@@ -21,9 +21,27 @@ class Admin extends CI_Controller
         }
         $method = $this->uri->segment(2);
         if ($method != '' && $method != 'logout') {
+            //qase_redirect
+            $getParam = true;
+            $i = 1;
+            $url = '';
+            while ($getParam == true) {
+                if ($this->uri->segment($i)) {
+                    $url .= $this->uri->segment($i).'/';
+                } else {
+                    $getParam = false;
+                }
+                // Max
+                if ($i == 10) {
+                    $getParam = false;
+                }
+                ++$i;
+            }
+            $this->session->set_userdata('qase_redirect', $url);
+
             //if (!isset($this->session->userdata['members_class'])) {
             if (!isset($_SESSION['members_class'])) {
-                redirect(root_url(), 'refresh');
+                redirect(base_url(), 'refresh');
             }
         }
         $this->output->set_template('qase');
@@ -38,7 +56,6 @@ class Admin extends CI_Controller
     {
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
-
         $view['message'] = '';
         if ($this->form_validation->run() == false) {
             //if (isset($this->session->userdata['members_class'])) {

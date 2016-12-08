@@ -43,7 +43,11 @@
                 $.ajax(options).done(function(res) {
                     //console.log('result submit', res);
                     if (res.result) {
-                        location.reload();
+                        if (res.redirect) {
+                            window.location.href = res.redirect;
+                        } else {
+                            location.reload();
+                        }
                     } else {
                         $('#alert_message').html('<div id="message" class="alert alert-danger" onclick="HideMessage();">'+res.message+'</div>');
                         $('#username').parents('.form-group').addClass('has-error');

@@ -9,6 +9,7 @@ class Api extends CI_Controller
         parent::__construct();
         $this->load->helper('form');
         $this->load->library('session');
+        $this->load->helper('url');
     }
 
     private function json($data)
@@ -45,7 +46,14 @@ class Api extends CI_Controller
                 $this->session->set_userdata('members_status', $data->members_status);
                 $this->session->set_userdata('members_first_name', $data->members_first_name);
                 $this->session->set_userdata('members_last_name', $data->members_last_name);
-                $data = array('result' => 1, 'data' => 'success');
+
+                if (isset($_SESSION['qase_redirect']) && $_SESSION['qase_redirect'] != '') {
+                    $redirect = base_url($_SESSION['qase_redirect']);
+                } else {
+                    $redirect = base_url();
+                }
+
+                $data = array('result' => 1, 'data' => 'success', 'redirect' => $redirect);
             } else {
                 $data = array('result' => 0, 'data' => 'error', 'message' => 'กรุณากรอกชื่อผู้ใช้หรือรหัสผ่านให้ถูกต้อง');
             }
@@ -74,7 +82,24 @@ class Api extends CI_Controller
         }
 
         if ($schedules) {
+            // Load library email
+            $this->load->library('email');
+            $this->email->initialize(array(
+                                      'protocol' => 'smtp',
+                                      'smtp_host' => EMAIL_SMTP_HOST,
+                                      'smtp_port' => EMAIL_SMTP_PORT,
+                                      'smtp_user' => EMAIL_SMTP_USER,
+                                      'smtp_pass' => EMAIL_SMTP_PASS,
+                                      'mailtype' => 'html',
+                                      //'charset' => 'iso-8859-1',
+                                      'charset' => 'utf-8',
+                                      'newline' => "\r\n",
+                                  ));
+
             foreach ($schedules as $value_1) {
+                /*echo '<pre>';
+                print_r($value_1);
+                echo '</pre>';*/
                 $now = date('Y-m-d H:i:s');
                 $execute_time = date('Y-m-d').' '.$value_1->execute_time;
                 $day = date('w', strtotime($now));
@@ -96,7 +121,28 @@ class Api extends CI_Controller
                             }
                         }
                         if ($value_1->email) {
-                            $this->_send_email($sar_id, $value_1->email);
+                            $title = 'ผลการประเมินคุณภาพการศึกษาภายในตามตัวบ่งชี้ ระดับหลักสูตร หลักสูตร'.$value_1->course_name.' ประจำปีการศึกษาที่ '.($value_1->course_year + 543);
+                            $url = base_url('admin/sars/'.$value_1->course_id);
+                            $sendHtml = '<h3>'.$title.'</h3>';
+                            $sendHtml .= '<table>';
+                            $sendHtml .= '<tr>';
+                            $sendHtml .= '<td>ผลการประเมินคุณภาพ</td>';
+                            $sendHtml .= '<td><a href="'.$url.'" target="_blank">คลิกเพื่อเปิด</a></td>';
+                            $sendHtml .= '</tr>';
+                            $sendHtml .= '<tr>';
+                            $sendHtml .= '<td>เวลาที่ระบบประมวลผล</td>';
+                            $sendHtml .= '<td>'.$now.'</td>';
+                            $sendHtml .= '</tr>';
+                            $sendHtml .= '</table>';
+
+                            $this->email->from(EMAIL_SMTP_USER, EMAIL_SMTP_NAME);
+                            $this->email->to($value_1->email);
+                            $this->email->subject($title);
+                            $this->email->message($sendHtml);
+                            $this->email->send();
+                            // clear last email
+                            $this->email->clear(true);
+                            //echo $sendHtml;
                         }
                     }
                 }
@@ -183,9 +229,5 @@ class Api extends CI_Controller
         }
 
         return $pass;
-    }
-
-    private function _send_email()
-    {
     }
 }

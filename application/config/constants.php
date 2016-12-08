@@ -89,6 +89,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 | Define Config Email
 |--------------------------------------------------------------------------
 */
-defined('EMAIL_SMTP_NAME')      OR define('EMAIL_SMTP_NAME', 'xxxx');
-defined('EMAIL_SMTP_USER')      OR define('EMAIL_SMTP_USER', 'xxxx@gmail.com');
-defined('EMAIL_SMTP_PASS')      OR define('EMAIL_SMTP_PASS', 'xxxx');
+defined('EMAIL_SMTP_HOST')      OR define('EMAIL_SMTP_HOST', 'ssl://smtp.googlemail.com');
+defined('EMAIL_SMTP_PORT')      OR define('EMAIL_SMTP_PORT', '465');
+defined('EMAIL_SMTP_NAME')      OR define('EMAIL_SMTP_NAME', 'Quality Assurance');
+defined('EMAIL_SMTP_USER')      OR define('EMAIL_SMTP_USER', 'xxxxx@gmail.com');
+defined('EMAIL_SMTP_PASS')      OR define('EMAIL_SMTP_PASS', 'xxxxx');
