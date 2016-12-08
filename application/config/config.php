@@ -1,6 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
+defined('BASEPATH') or exit('No direct script access allowed');
+date_default_timezone_set('Asia/Bangkok');
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -27,7 +28,6 @@ $config['base_url'] = 'http://se.dev:8888/qase/';
 //$config['base_url'] = 'http://52.220.162.21/qase/';
 $config['root_url'] = 'http://se.dev:8888/';
 //$config['root_url'] = 'http://52.220.162.21/';
-
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']	= 'REQUEST_URI';
+$config['uri_protocol'] = 'REQUEST_URI';
 //$config['uri_protocol']	= 'PATH_INFO';
 
 /*
@@ -82,7 +82,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,7 +142,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -191,8 +191,8 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array'] = TRUE;
-$config['enable_query_strings'] = FALSE;
+$config['allow_get_array'] = true;
+$config['enable_query_strings'] = false;
 $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
@@ -307,7 +307,7 @@ $config['cache_path'] = '';
 |	             of query parameters.
 |
 */
-$config['cache_query_string'] = FALSE;
+$config['cache_query_string'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -376,11 +376,11 @@ $config['encryption_key'] = 'qase';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+$config['sess_save_path'] = null;
 //$config['sess_save_path'] = '/tmp';
-$config['sess_match_ip'] = FALSE;
+$config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = FALSE;
+$config['sess_regenerate_destroy'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -397,11 +397,11 @@ $config['sess_regenerate_destroy'] = FALSE;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+$config['cookie_prefix'] = '';
+$config['cookie_domain'] = '';
+$config['cookie_path'] = '/';
+$config['cookie_secure'] = false;
+$config['cookie_httponly'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -415,7 +415,7 @@ $config['cookie_httponly'] 	= FALSE;
 | (usually \n) and Windows (\r\n).
 |
 */
-$config['standardize_newlines'] = FALSE;
+$config['standardize_newlines'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -429,7 +429,7 @@ $config['standardize_newlines'] = FALSE;
 |          for backwards compatibility purposes!
 |
 */
-$config['global_xss_filtering'] = FALSE;
+$config['global_xss_filtering'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -445,11 +445,11 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = FALSE;
+$config['csrf_protection'] = false;
 $config['csrf_token_name'] = 'csrf_test_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
-$config['csrf_regenerate'] = TRUE;
+$config['csrf_regenerate'] = true;
 $config['csrf_exclude_uris'] = array();
 
 /*
@@ -472,7 +472,7 @@ $config['csrf_exclude_uris'] = array();
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = FALSE;
+$config['compress_output'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -499,7 +499,7 @@ $config['time_reference'] = 'local';
 | Note: You need to have eval() enabled for this to work.
 |
 */
-$config['rewrite_short_tags'] = FALSE;
+$config['rewrite_short_tags'] = false;
 
 /*
 |--------------------------------------------------------------------------
