@@ -110,9 +110,9 @@ class Sars_model extends CI_Model
     {
         $data = false;
         if ($id) {
-            $sar = $this->find_course($course_id, true);
-        } else {
             $sar = $this->find($id);
+        } else {
+            $sar = $this->find_course($course_id, true);
         }
         if ($sar) {
             $this->load->model('Kpis_model');

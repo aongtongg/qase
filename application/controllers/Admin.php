@@ -668,7 +668,11 @@ class Admin extends CI_Controller
     public function sars()
     {
         $this->load->model('Sars_model');
-        $data = $this->Sars_model->get_sar_course($this->uri->segment(3), true);
+        if ($this->uri->segment(4)) {
+            $data = $this->Sars_model->get_sar_course($this->uri->segment(3), $this->uri->segment(4));
+        } else {
+            $data = $this->Sars_model->get_sar_course($this->uri->segment(3));
+        }
         if ($data) {
             $view['data'] = $data;
             $view['controller'] = $this;
