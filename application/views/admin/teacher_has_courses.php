@@ -70,9 +70,6 @@
                     <td class="text-center"><?php echo $value->teacher_no; ?></td>
                     <td>
                         <a class="btn btn-primary" href="<?php echo base_url('admin/teacher_has_courses/'.$value->course_id); ?>">แก้ไข</a>
-                        <?php if (isset($sarLists[$value->course_id])): ?>
-                        <a class="btn btn-primary" href="<?php echo base_url('admin/sars/'.$value->course_id); ?>">ผลการประเมินคุณภาพ</a>
-                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php

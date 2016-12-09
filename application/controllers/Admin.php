@@ -220,16 +220,6 @@ class Admin extends CI_Controller
         } else {
             $data = $this->Teacher_has_courses_model->find_all_course();
             $view['data'] = $data;
-
-            $this->load->model('Sars_model');
-            $sars = $this->Sars_model->find_all_course();
-            $sarLists = array();
-            if ($sars) {
-                foreach ($sars as $value) {
-                    $sarLists[$value->course_id] = true;
-                }
-            }
-            $view['sarLists'] = $sarLists;
         }
 
         $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
@@ -668,22 +658,69 @@ class Admin extends CI_Controller
     public function sars()
     {
         $this->load->model('Sars_model');
-        if ($this->uri->segment(4)) {
-            $data = $this->Sars_model->get_sar_course($this->uri->segment(3), $this->uri->segment(4));
+        $course_id = $this->uri->segment(3);
+        if ($course_id) {
+            $data = $this->Sars_model->find_course($course_id, false);
         } else {
-            $data = $this->Sars_model->get_sar_course($this->uri->segment(3));
+            $data = $this->Sars_model->find_all_course();
+        }
+
+        if ($data) {
+            $view['data'] = $data;
+            $view['course_id'] = $course_id;
+            $view['controller'] = $this;
+
+            $this->breadcrumbs->push('ผลประเมินคุณภาพ', '/admin/sars');
+            if ($course_id) {
+                $view['title'] = 'หลักสูตร'.$data[0]->course_name.' ประจำปีการศึกษาที่ '.($data[0]->course_year + 543);
+                $this->breadcrumbs->push($view['title'], '/admin/sars/'.$course_id);
+            }
+            $view['breadcrumbs'] = $this->breadcrumbs->show();
+            $this->load->view('admin/sars', $view);
+            $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
+        } else {
+            if ($course_id) {
+                redirect('/admin/sars', 'refresh');
+            } else {
+                redirect('/admin/', 'refresh');
+            }
+        }
+    }
+
+    /* Sar page */
+    public function sar()
+    {
+        $this->load->model('Sars_model');
+        $course_id = $this->uri->segment(3);
+        $sar_id = $this->uri->segment(4);
+        if ($sar_id) {
+            $data = $this->Sars_model->get_sar_course($course_id, $sar_id);
+        } else {
+            $data = $this->Sars_model->get_sar_course($course_id);
         }
         if ($data) {
             $view['data'] = $data;
             $view['controller'] = $this;
 
-            $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+            $year = substr($data->course_year + 543, -2);
+            $view['code'] = $data->course_code.$year.'-'.$data->sar_id;
+
             $this->breadcrumbs->push('ผลประเมินคุณภาพ', '/admin/sars');
+            $this->breadcrumbs->push('หลักสูตร'.$data->course_name.' ประจำปีการศึกษาที่ '.($data->course_year + 543), '/admin/sars/'.$course_id);
+            if ($sar_id) {
+                $this->breadcrumbs->push($view['code'], '/admin/sar/'.$course_id.'/'.$sar_id);
+            } else {
+                $this->breadcrumbs->push($view['code'], '/admin/sar/'.$course_id);
+            }
             $view['breadcrumbs'] = $this->breadcrumbs->show();
-            $this->load->view('admin/sars', $view);
+            $this->load->view('admin/sar', $view);
             $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         } else {
-            redirect('/admin/teacher_has_courses', 'refresh');
+            if ($course_id) {
+                redirect('/admin/sars/'.$course_id, 'refresh');
+            } else {
+                redirect('/admin/sars', 'refresh');
+            }
         }
     }
 

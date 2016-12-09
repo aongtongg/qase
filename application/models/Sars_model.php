@@ -9,7 +9,7 @@ class Sars_model extends CI_Model
     }
 
     /* Select data by ID */
-    public function find($id)
+    public function find($course_id, $id)
     {
         $data = $this->db->query('SELECT
                                     sars.sar_id,
@@ -22,8 +22,8 @@ class Sars_model extends CI_Model
                                     sars
                                   JOIN courses ON courses.course_id = sars.course_id
                                   WHERE
+                                    sars.course_id = "'.$course_id.'" AND
                                     sars.sar_id = "'.$id.'"');
-
         if ($data->result()) {
             return $data->first_row();
         } else {
@@ -47,7 +47,7 @@ class Sars_model extends CI_Model
                                   GROUP BY
                                     sars.course_id
                                   ORDER BY
-                                    sars.sar_date DESC');
+                                    sars.sar_date DESC, courses.course_name');
 
         if ($data->result()) {
             return $data->result();
@@ -73,23 +73,23 @@ class Sars_model extends CI_Model
                                       WHERE
                                         sars.course_id = "'.$course_id.'"
                                       ORDER BY
-                                        sars.sar_date DESC');
+                                        sars.sar_date DESC
+                                      LIMIT 1');
         } else {
             $data = $this->db->query('SELECT
-                                          sars.sar_id,
-                                          sars.course_id,
-                                          courses.course_name,
-                                          courses.course_code,
-                                          courses.course_year,
-                                          sars.sar_date
-                                        FROM
-                                          sars
-                                        JOIN courses ON courses.course_id = sars.course_id
-                                        WHERE
-                                          sars.course_id = "'.$course_id.'"
-                                        ORDER BY
-                                          sars.sar_date DESC
-                                        LIMIT 1');
+                                        sars.sar_id,
+                                        sars.course_id,
+                                        courses.course_name,
+                                        courses.course_code,
+                                        courses.course_year,
+                                        sars.sar_date
+                                      FROM
+                                        sars
+                                      JOIN courses ON courses.course_id = sars.course_id
+                                      WHERE
+                                        sars.course_id = "'.$course_id.'"
+                                      ORDER BY
+                                        sars.sar_date DESC');
         }
 
         if ($data->result()) {
@@ -110,7 +110,7 @@ class Sars_model extends CI_Model
     {
         $data = false;
         if ($id) {
-            $sar = $this->find($id);
+            $sar = $this->find($course_id, $id);
         } else {
             $sar = $this->find_course($course_id, true);
         }

@@ -119,7 +119,7 @@
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/courses'); ?>'" title="หลักสูตร">หลักสูตร</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/roles'); ?>'" title="บทบาท">บทบาท</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/teacher_has_courses'); ?>'" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</div>
-						<div class="nav-head cpt"></div>
+						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/sars'); ?>'" title="ผลการประเมินคุณภาพ">ผลการประเมินคุณภาพ</div>
 						<div class="nav-head cpt" onclick="window.location.href='<?php echo base_url('admin/schedules'); ?>'" title="การตรวจสอบ">การตรวจสอบ</div>
 						<?php endif; ?>
 						<div class="nav-head-end"></div>
