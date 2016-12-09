@@ -47,7 +47,7 @@ class Sars_model extends CI_Model
                                   GROUP BY
                                     sars.course_id
                                   ORDER BY
-                                    sars.sar_date DESC, courses.course_name');
+                                    courses.course_year DESC, courses.course_name');
 
         if ($data->result()) {
             return $data->result();

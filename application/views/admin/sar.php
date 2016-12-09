@@ -35,7 +35,7 @@ $allPass = true;
                 <tr class="level-1">
                 <?php if (isset($value_1['pass'])): ?>
                 <td><?php echo $value_1['title']; ?></td>
-                <td class="text-center"><?php echo $value_1['pass'] && !$value_1['fail'] ? 'ผ่าน' : !$value_1['pass'] && !$value_1['fail'] ? 'ยังไม่ได้ประเมิน' : 'ไม่ผ่าน'; ?></td>
+                <td></td>
                 <?php else: ?>
                 <td colspan="2"><?php echo $value_1['title']; ?></td>
                 <?php endif; ?>
@@ -46,7 +46,7 @@ $allPass = true;
                     <tr class="level-2">
                     <?php if (isset($value_2['pass'])): ?>
                     <td><?php echo $value_2['title']; ?></td>
-                    <td class="text-center"><?php echo $value_2['pass'] && !$value_2['fail'] ? 'ผ่าน' : !$value_2['pass'] && !$value_2['fail'] ? 'ยังไม่ได้ประเมิน' : 'ไม่ผ่าน'; ?></td>
+                    <td></td>
                     <?php else: ?>
                     <td colspan="2"><?php echo $value_2['title']; ?></td>
                     <?php endif; ?>
@@ -55,23 +55,22 @@ $allPass = true;
                         <!-- Strat Level 3 -->
                         <?php $i = 1; ?>
                         <?php foreach ($value_2['child'] as $key => $value_3): ?>
-                        <tr class="level-3">
-                        <?php if (isset($value_3['pass'])): ?>
-                        <td><?php echo $i++.'. '.$value_3['title']; ?></td>
                         <?php
                         if ($value_3['pass'] && !$value_3['fail']) {
                             $status = 'ผ่าน';
                             $pass = true;
                         } elseif (!$value_3['pass'] && !$value_3['fail']) {
                             $status = 'ยังไม่ได้ประเมิน';
-                            $pass = false;
-                            $allPass = false;
                         } else {
                             $status = 'ไม่ผ่าน';
                             $pass = false;
                             $allPass = false;
                         }
                         ?>
+                        <?php if ($status != 'ยังไม่ได้ประเมิน'): ?>
+                        <tr class="level-3">
+                        <?php if (isset($value_3['pass'])): ?>
+                        <td><?php echo $i++.'. '.$value_3['title']; ?></td>
                         <td class="text-center">
                             <a href="#" data-toggle="modal" data-target="#kpi<?php echo $key; ?>"><?php echo $status; ?></a>
                             <!-- Modal -->
@@ -132,6 +131,7 @@ $allPass = true;
                         <td colspan="2"><?php echo $value_3['title']; ?></td>
                         <?php endif; ?>
                         </tr>
+                        <?php endif; ?>
                         <!-- End Level 3 -->
                         <?php endforeach; ?>
                         <?php endif; ?>
