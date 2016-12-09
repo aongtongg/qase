@@ -210,6 +210,14 @@ class Api extends CI_Controller
                         $inCase = true;
                         $checked = $this->Kpis_model->check_rule_10($course_id, $teacher_id);
                     break;
+                    case 11:
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_11($course_id, $teacher_id);
+                    break;
+                    case 12:
+                        $inCase = true;
+                        $checked = $this->Kpis_model->check_rule_12($teacher_id);
+                    break;
                     default:
                         //$checked = true;
                     break;
