@@ -119,7 +119,7 @@ class Api extends CI_Controller
                         }
                         if ($value_1->email) {
                             $title = 'ผลการประเมินคุณภาพการศึกษาภายในตามตัวบ่งชี้ ระดับหลักสูตร หลักสูตร'.$value_1->course_name.' ประจำปีการศึกษาที่ '.($value_1->course_year + 543);
-                            $url = base_url('admin/sars/'.$value_1->course_id.'/'.$sar_id);
+                            $url = base_url('admin/sar/'.$value_1->course_id.'/'.$sar_id);
                             $sendHtml = '<h3>'.$title.'</h3>';
                             $sendHtml .= '<table>';
                             $sendHtml .= '<tr>';
