@@ -81,7 +81,7 @@ class Admin extends CI_Controller
                 $this->load->view('admin/login', $view);
             }
         }
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     public function logout()
@@ -106,7 +106,7 @@ class Admin extends CI_Controller
         $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/courses', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Add courses page */
@@ -134,7 +134,7 @@ class Admin extends CI_Controller
         $this->breadcrumbs->push('เพิ่มหลักสูตร', '/admin/course_add/');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/course_add', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Edit courses page */
@@ -165,7 +165,7 @@ class Admin extends CI_Controller
             $this->breadcrumbs->push('แก้ไขหลักสูตร', '/admin/course_add/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/course_edit', $view);
-            $this->output->set_common_meta('QASE', '', '');
+            $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         } else {
             redirect('/admin/courses', 'refresh');
         }
@@ -238,7 +238,7 @@ class Admin extends CI_Controller
         }
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/teacher_has_courses', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Add teacher has courses page */
@@ -332,7 +332,7 @@ class Admin extends CI_Controller
         $this->breadcrumbs->push('เพิ่มหลักสูตร และบทบาท', '/admin/teacher_has_course_add');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/teacher_has_course_add', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Edit teacher has courses page */
@@ -408,7 +408,7 @@ class Admin extends CI_Controller
             $this->breadcrumbs->push('แก้ไขหลักสูตร และบทบาท', '/admin/teacher_has_course_edit');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/teacher_has_course_edit', $view);
-            $this->output->set_common_meta('QASE', '', '');
+            $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         } else {
             redirect('/admin/teacher_has_courses', 'refresh');
         }
@@ -425,7 +425,7 @@ class Admin extends CI_Controller
         $this->breadcrumbs->push('บทบาท', '/admin/roles');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/roles', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Edit roles page */
@@ -466,7 +466,7 @@ class Admin extends CI_Controller
             $this->breadcrumbs->push('แก้ไขเกณฑ์', '/admin/role_edit/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/role_edit', $view);
-            $this->output->set_common_meta('QASE', '', '');
+            $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         } else {
             redirect('/admin/roles', 'refresh');
         }
@@ -484,7 +484,7 @@ class Admin extends CI_Controller
         $this->breadcrumbs->push('การตรวจสอบ', '/admin/schedules');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/schedules', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Add schedules page */
@@ -540,7 +540,7 @@ class Admin extends CI_Controller
         $this->breadcrumbs->push('เพิ่มการตรวจสอบ', '/admin/schedule_add/');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/schedule_add', $view);
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
     }
 
     /* Edit schedules page */
@@ -618,7 +618,7 @@ class Admin extends CI_Controller
             $this->breadcrumbs->push('แก้ไขการตรวจสอบ', '/admin/schedule_edit/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/schedule_edit', $view);
-            $this->output->set_common_meta('QASE', '', '');
+            $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         } else {
             redirect('/admin/schedules', 'refresh');
         }
@@ -681,7 +681,7 @@ class Admin extends CI_Controller
             $this->breadcrumbs->push('ผลประเมินคุณภาพ', '/admin/sars');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/sars', $view);
-            $this->output->set_common_meta('QASE', '', '');
+            $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         } else {
             redirect('/admin/teacher_has_courses', 'refresh');
         }

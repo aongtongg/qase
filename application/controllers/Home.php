@@ -26,7 +26,7 @@ class Home extends CI_Controller
     {
         redirect(base_url('admin'), 'refresh');
 
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         $view['title'] = '';
 
         $this->load->view('home/index', $view);

@@ -44,7 +44,7 @@ class Kpis_model extends CI_Model
     }
 
     /* Check rule 1 */
-    public function check_rule_1($researcher_id)
+    public function check_rule_1($teacher_id)
     {
         // อาจารย์ประจำ (เต็มเวลา) + จบโท
         $data = $this->db->query('SELECT
@@ -56,7 +56,7 @@ class Kpis_model extends CI_Model
                                   JOIN
                                     seminar.degree ON degree.degree_id = members.members_degree
                                   WHERE
-                                    members.members_relation = "'.$researcher_id.'"');
+                                    members.members_id = "'.$teacher_id.'"');
 
         if ($data->result()) {
             $data = $data->first_row();
@@ -189,7 +189,7 @@ class Kpis_model extends CI_Model
     }
 
     /* Check rule 4 */
-    public function check_rule_4($researcher_id)
+    public function check_rule_4($teacher_id)
     {
         // อาจารย์ประจำ (เต็มเวลา) + จบ เอก Or โท+รศ
         $data = $this->db->query('SELECT
@@ -205,7 +205,7 @@ class Kpis_model extends CI_Model
                                   JOIN
                                     seminar.position ON position.position_id = members.members_position
                                   WHERE
-                                    members.members_relation = "'.$researcher_id.'"');
+                                    members.members_id = "'.$teacher_id.'"');
 
         if ($data->result()) {
             $data = $data->first_row();
@@ -267,7 +267,7 @@ class Kpis_model extends CI_Model
     }
 
     /* Check rule 6 */
-    public function check_rule_6($researcher_id)
+    public function check_rule_6($teacher_id)
     {
         // อาจารย์ใหม่ + จบ ดร
         $data = $this->db->query('SELECT
@@ -279,7 +279,7 @@ class Kpis_model extends CI_Model
                                   JOIN
                                     seminar.degree ON degree.degree_id = members.members_degree
                                   WHERE
-                                    members.members_relation = "'.$researcher_id.'"');
+                                    members.members_id = "'.$teacher_id.'"');
 
         if ($data->result()) {
             if ($data->first_row()->degree_id == 3) {

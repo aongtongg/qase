@@ -27,7 +27,7 @@ class Teacher extends CI_Controller
 
     public function index()
     {
-        $this->output->set_common_meta('QASE', '', '');
+        $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
         $this->load->model('Teachers_model');
         $teachers = $this->Teachers_model->find_all();
         $view['teachers'] = $teachers;

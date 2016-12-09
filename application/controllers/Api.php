@@ -172,7 +172,7 @@ class Api extends CI_Controller
                 switch ($value->rule_id) {
                     case 1:
                         $inCase = true;
-                        $checked = $this->Kpis_model->check_rule_1($researcher_id);
+                        $checked = $this->Kpis_model->check_rule_1($teacher_id);
                     break;
                     case 2:
                         $inCase = true;
@@ -184,7 +184,7 @@ class Api extends CI_Controller
                     break;
                     case 4:
                         $inCase = true;
-                        $checked = $this->Kpis_model->check_rule_4($researcher_id);
+                        $checked = $this->Kpis_model->check_rule_4($teacher_id);
                     break;
                     case 5:
                         $inCase = true;
@@ -192,7 +192,7 @@ class Api extends CI_Controller
                     break;
                     case 6:
                         $inCase = true;
-                        $checked = $this->Kpis_model->check_rule_6($researcher_id);
+                        $checked = $this->Kpis_model->check_rule_6($teacher_id);
                     break;
                     case 7:
                         $inCase = true;
