@@ -7,6 +7,7 @@
             <li class=""><a href="<?php echo base_url('admin/roles'); ?>" title="บทบาท">บทบาท</a></li>
             <li class=""><a href="<?php echo base_url('admin/teacher_has_courses'); ?>" title="หลักสูตร และบทบาท">หลักสูตร และบทบาท</a></li>
             <li><hr></li>
+            <li class=""><a href="<?php echo base_url('admin/sars'); ?>" title="ผลการประเมินคุณภาพ">ผลการประเมินคุณภาพ</a></li>
             <li class=""><a href="<?php echo base_url('admin/schedules'); ?>" title="การตรวจสอบ">การตรวจสอบ</a></li>
             <li><hr></li>
         </ul>
