@@ -436,7 +436,7 @@ class Admin extends CI_Controller
         $data = $this->Roles_model->find_all();
         $view['data'] = $data;
 
-        $this->breadcrumbs->push('บทบาท', '/admin/roles');
+        $this->breadcrumbs->push('กำหนดเกณฑ์', '/admin/roles');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/roles', $view);
         $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
@@ -476,7 +476,7 @@ class Admin extends CI_Controller
             $view['rules'] = $rules;
             $view['ruleSelected'] = $ruleSelected;
 
-            $this->breadcrumbs->push('บทบาท', '/admin/roles');
+            $this->breadcrumbs->push('กำหนดเกณฑ์', '/admin/roles');
             $this->breadcrumbs->push('แก้ไขเกณฑ์', '/admin/role_edit/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/role_edit', $view);

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
-        <h1>บทบาท</h1>
+        <h1>กำหนดเกณฑ์</h1>
     </div>
     <div class="col-md-12">
         <table class="table">
