@@ -18,14 +18,6 @@
     <div class="col-md-6">
         <form id="course_form" data-toggle="validator" role="form" method="post">
             <div class="form-group">
-                <label for="course_name">ชื่อหลักสูตร</label>
-                <input type="text" class="form-control" id="course_name" name="course_name" placeholder="ชื่อหลักสูตร" value="<?php echo isset($_POST['course_name']) ? $_POST['course_name'] : ''; ?>" required="">
-            </div>
-            <div class="form-group">
-                <label for="course_code">รหัสหลักสูตร</label>
-                <input type="text" class="form-control" id="course_code" name="course_code" placeholder="รหัสหลักสูตร" value="<?php echo isset($_POST['course_code']) ? $_POST['course_code'] : ''; ?>" required="">
-            </div>
-            <div class="form-group">
                 <label for="course_year">ปีการศึกษา</label>
                 <select class="form-control" id="course_year" name="course_year" required="">
                     <option value="">กรุณาเลือกปีการศึกษา</option>
@@ -37,6 +29,23 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="course_name">ชื่อหลักสูตร</label>
+                <select class="form-control" id="course_name" name="course_name" required="">
+                    <option value="">กรุณาเลือกหลักสูตร</option>
+                    <?php if (isset($courseNameLists) && is_array($courseNameLists)): ?>
+                    <?php foreach ($courseNameLists as $key => $value): ?>
+                    <option value="<?php echo $value['code']; ?>" <?php echo isset($_POST['course_name']) && $_POST['course_name'] == $value['title'] ? 'selected' : '';  ?>><?php echo $value['title']; ?></option>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
+            <?php /*
+            <div class="form-group">
+                <label for="course_code">รหัสหลักสูตร</label>
+                <select class="form-control" id="course_name" name="course_name" required="">
+                <input type="text" class="form-control" id="course_code" name="course_code" placeholder="รหัสหลักสูตร" value="<?php echo isset($_POST['course_code']) ? $_POST['course_code'] : ''; ?>" required="">
+            </div>
+            <div class="form-group">
                 <label for="course_start_date">วันที่เริ่มหลักสูตร</label>
                 <div class="input-group date">
                     <input type="text" class="form-control" id="course_start_date" name="course_start_date" value="<?php echo isset($_POST['course_start_date']) ? $_POST['course_start_date'] : ''; ?>" data-date-format="yyyy-mm-dd" required="">
@@ -45,6 +54,7 @@
                     </span>
                 </div>
             </div>
+            */ ?>
             <div class="form-group">
                 <label for="course_estimate_date">วันกำหนดประเมินหลักสูตร</label>
                 <div class="input-group date">

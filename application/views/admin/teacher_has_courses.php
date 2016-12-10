@@ -41,7 +41,7 @@
 <?php else: ?>
 <div class="row">
     <div class="col-xs-12">
-        <h1>ภาพรวมหลักสูตร
+        <h1>หลักสูตร และบทบาท
             <a class="btn btn-primary" href="<?php echo base_url('admin/teacher_has_course_add/'); ?>">เพิ่ม</a>
         </h1>
     </div>

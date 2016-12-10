@@ -50,7 +50,6 @@ class Members_model extends CI_Model
                                     FROM
                                       seminar.members
                                     WHERE
-                                      members_class >= "2" AND
                                       members_email = "'.$username.'" AND
                                       members_password = "'.$md5.'"');
 

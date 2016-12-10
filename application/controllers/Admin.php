@@ -16,9 +16,6 @@ class Admin extends CI_Controller
 
     private function _init()
     {
-        if (!isset($_SESSION['members_class'])) {
-            //redirect(root_url(), 'refresh');
-        }
         $method = $this->uri->segment(2);
         if ($method != '' && $method != 'logout') {
             //qase_redirect
@@ -39,9 +36,12 @@ class Admin extends CI_Controller
             }
             $this->session->set_userdata('qase_redirect', $url);
 
-            //if (!isset($this->session->userdata['members_class'])) {
             if (!isset($_SESSION['members_class'])) {
                 redirect(base_url(), 'refresh');
+            } elseif ($_SESSION['members_class'] != 2) {
+                if ($method != 'sars' && $method != 'sar') {
+                    redirect(base_url(), 'refresh');
+                }
             }
         }
         $this->output->set_template('qase');
@@ -103,7 +103,7 @@ class Admin extends CI_Controller
         $view['data'] = $data;
         $view['controller'] = $this;
 
-        $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
+        $this->breadcrumbs->push('หลักสูตรที่เปิดสอน', '/admin/courses');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/courses', $view);
         $this->output->set_common_meta('Quality Assurance - ภาควิชาวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่', '', '');
@@ -114,7 +114,8 @@ class Admin extends CI_Controller
     {
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
-            if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
+            //if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
+            if ($this->input->post('course_name') && $this->input->post('course_estimate_date')) {
                 if ($this->input->post('course_start_date') < $this->input->post('course_estimate_date')) {
                     $this->course_save();
                 } else {
@@ -130,7 +131,13 @@ class Admin extends CI_Controller
         }
         $view['courseYearLists'] = $courseYearLists;
 
-        $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
+        // Course Name Lists
+        $courseNameLists = array();
+        $courseNameLists[] = array('title' => 'ป.โท ภาคปกติ', 'code' => 'MSCS');
+        $courseNameLists[] = array('title' => 'ป.โท ภาคพิเศษ', 'code' => 'MSCS(SP)');
+        $view['courseNameLists'] = $courseNameLists;
+
+        $this->breadcrumbs->push('หลักสูตรที่เปิดสอน', '/admin/courses');
         $this->breadcrumbs->push('เพิ่มหลักสูตร', '/admin/course_add/');
         $view['breadcrumbs'] = $this->breadcrumbs->show();
         $this->load->view('admin/course_add', $view);
@@ -142,7 +149,8 @@ class Admin extends CI_Controller
     {
         $this->load->model('Courses_model');
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
-            if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
+            //if ($this->input->post('course_name') && $this->input->post('course_start_date') && $this->input->post('course_estimate_date')) {
+            if ($this->input->post('course_name') && $this->input->post('course_estimate_date')) {
                 if ($this->input->post('course_start_date') < $this->input->post('course_estimate_date')) {
                     $this->course_save('update');
                 } else {
@@ -161,7 +169,13 @@ class Admin extends CI_Controller
             }
             $view['courseYearLists'] = $courseYearLists;
 
-            $this->breadcrumbs->push('หลักสูตร', '/admin/courses');
+            // Course Name Lists
+            $courseNameLists = array();
+            $courseNameLists[] = array('title' => 'ป.โท ภาคปกติ', 'code' => 'MSCS');
+            $courseNameLists[] = array('title' => 'ป.โท ภาคพิเศษ', 'code' => 'MSCS(SP)');
+            $view['courseNameLists'] = $courseNameLists;
+
+            $this->breadcrumbs->push('หลักสูตรที่เปิดสอน', '/admin/courses');
             $this->breadcrumbs->push('แก้ไขหลักสูตร', '/admin/course_add/');
             $view['breadcrumbs'] = $this->breadcrumbs->show();
             $this->load->view('admin/course_edit', $view);
@@ -176,9 +190,19 @@ class Admin extends CI_Controller
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
+
+        // Course Name Lists
+        $courseNameLists = array();
+        $courseNameLists['MSCS'] = 'ป.โท ภาคปกติ';
+        $courseNameLists['MSCS(SP)'] = 'ป.โท ภาคพิเศษ';
+        if (isset($courseNameLists[$_POST['course_name']])) {
+            $_POST['course_code'] = $_POST['course_name'];
+            $_POST['course_name'] = $courseNameLists[$_POST['course_name']];
+        }
+
         $this->form_validation->set_rules('course_name', 'course_name', 'trim|required');
         $this->form_validation->set_rules('course_code', 'course_code', 'trim|required');
-        $this->form_validation->set_rules('course_start_date', 'course_start_date', 'trim|required');
+        //$this->form_validation->set_rules('course_start_date', 'course_start_date', 'trim|required');
         $this->form_validation->set_rules('course_estimate_date', 'course_estimate_date', 'trim|required');
 
         if ($this->form_validation->run()) {
@@ -222,7 +246,7 @@ class Admin extends CI_Controller
             $view['data'] = $data;
         }
 
-        $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+        $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses');
         if ($course_id) {
             $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_id);
         }
@@ -315,7 +339,7 @@ class Admin extends CI_Controller
         $view['teacherLists'] = $teacherLists;
         $view['roleLists'] = $roleLists;
 
-        $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+        $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses');
         if ($course_id) {
             $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_id);
         }
@@ -391,7 +415,7 @@ class Admin extends CI_Controller
             $view['teacherLists'] = $teacherLists;
             $view['roleLists'] = $roleLists;
 
-            $this->breadcrumbs->push('ภาพรวมหลักสูตร', '/admin/teacher_has_courses');
+            $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses');
             if ($course_id) {
                 $this->breadcrumbs->push('หลักสูตร และบทบาท', '/admin/teacher_has_courses/'.$course_id);
             }
@@ -706,7 +730,7 @@ class Admin extends CI_Controller
             $view['code'] = $data->course_code.$year.'-'.$data->sar_id;
 
             $this->breadcrumbs->push('ผลประเมินคุณภาพ', '/admin/sars');
-            $this->breadcrumbs->push('หลักสูตร'.$data->course_name.' ประจำปีการศึกษาที่ '.($data->course_year + 543), '/admin/sars/'.$course_id);
+            $this->breadcrumbs->push('หลักสูตรที่เปิดสอน'.$data->course_name.' ประจำปีการศึกษาที่ '.($data->course_year + 543), '/admin/sars/'.$course_id);
             if ($sar_id) {
                 $this->breadcrumbs->push($view['code'], '/admin/sar/'.$course_id.'/'.$sar_id);
             } else {

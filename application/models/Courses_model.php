@@ -23,7 +23,7 @@ class Courses_model extends CI_Model
                                 courses
                               LEFT JOIN teacher_has_courses ON teacher_has_courses.course_id = courses.course_id
                               GROUP BY courses.course_id
-                              ORDER BY courses.course_year, courses.course_name');
+                              ORDER BY courses.course_year DESC, courses.course_name');
 
         if ($data->result()) {
             return $data->result();
@@ -68,7 +68,6 @@ class Courses_model extends CI_Model
                                    course_name = "'.$data['course_name'].'",
                                    course_code = "'.$data['course_code'].'",
                                    course_year = "'.$data['course_year'].'",
-                                   course_start_date = "'.$data['course_start_date'].'",
                                    course_estimate_date = "'.$data['course_estimate_date'].'"
                                   WHERE
                                     course_id = "'.$id.'"');
@@ -80,13 +79,11 @@ class Courses_model extends CI_Model
                                     course_name,
                                     course_code,
                                     course_year,
-                                    course_start_date,
                                     course_estimate_date)
                                   VALUES (
                                     "'.$data['course_name'].'",
                                     "'.$data['course_code'].'",
                                     "'.$data['course_year'].'",
-                                    "'.$data['course_start_date'].'",
                                     "'.$data['course_estimate_date'].'"
                                   )');
             if ($data) {
